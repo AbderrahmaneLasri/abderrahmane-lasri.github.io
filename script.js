@@ -1,64 +1,96 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const langToggle = document.getElementById("lang-toggle");
-  let isEnglish = false;
+  const sections = document.querySelectorAll("h2");
 
-  langToggle.addEventListener("click", () => {
-    const textsFr = [
-      "À propos de moi", "Mon Parcours", "Stages", "Projets Académiques",
-      "Mes Voyages", "Mes Passions", "Langues", "Compétences Techniques", "Notes de Vie ✍️",
-      "Présentation personnelle ici.", "Détails sur le parcours académique et professionnel.",
-      "Description de mes expériences à l'international.",
-      "Description de mes centres d'intérêt personnels.",
-      "Français - Langue maternelle", "Anglais - Avancé", "Espagnol - Intermédiaire",
-      "Programmation (Python, C++)", "CAO (SolidWorks, CATIA)", "Gestion de projet (MS Project, Trello)",
-      "“La réussite appartient à tout le monde. C’est au travail d’équipe qu’en revient le mérite.”"
-    ];
+  sections.forEach((title) => {
+    const content = title.nextElementSibling;
 
-    const textsEn = [
-      "About Me", "My Background", "Internships", "Academic Projects",
-      "My Travels", "My Passions", "Languages", "Technical Skills", "Life Notes ✍️",
-      "Personal introduction here.", "Details about academic and professional background.",
-      "Description of my international experiences.",
-      "Description of my personal interests.",
-      "French - Native", "English - Advanced", "Spanish - Intermediate",
-      "Programming (Python, C++)", "CAD (SolidWorks, CATIA)", "Project Management (MS Project, Trello)",
-      "“Success belongs to everyone. It is teamwork that deserves the credit.”"
-    ];
+    const toggle = () => {
+      const expanded = title.getAttribute("aria-expanded") === "true";
+      title.setAttribute("aria-expanded", String(!expanded));
+      content.classList.toggle("open");
+    };
 
-    document.querySelectorAll("h2, .toggle-content p, .toggle-content li, blockquote").forEach((el, i) => {
-      el.innerHTML = isEnglish ? textsFr[i] : textsEn[i];
+    title.addEventListener("click", toggle);
+    title.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
     });
-
-    langToggle.textContent = isEnglish ? "🇬🇧 English" : "🇫🇷 Français";
-    isEnglish = !isEnglish;
   });
 
-  // Scroll button
-  const scrollTop = document.getElementById("scroll-top");
-  window.addEventListener("scroll", () => {
-    scrollTop.style.display = window.scrollY > 300 ? "block" : "none";
+  const scrollBtn = document.createElement("button");
+  scrollBtn.textContent = "↑ Haut";
+  scrollBtn.setAttribute("aria-label", "Remonter en haut");
+  Object.assign(scrollBtn.style, {
+    position: "fixed",
+    bottom: "30px",
+    right: "30px",
+    padding: "0.7rem 1rem",
+    borderRadius: "50px",
+    border: "none",
+    backgroundColor: "#4ca1af",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+    display: "none",
+    zIndex: "999"
   });
-  scrollTop.addEventListener("click", () => {
+
+  document.body.appendChild(scrollBtn);
+
+  scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Mode sombre
-  const darkToggle = document.getElementById("toggle-dark-mode");
-  darkToggle.addEventListener("click", () => {
+  window.addEventListener("scroll", () => {
+    scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
+  });
+
+  const darkModeBtn = document.createElement("button");
+  darkModeBtn.textContent = "🌙 Mode Sombre";
+  darkModeBtn.setAttribute("aria-label", "Activer/désactiver le mode sombre");
+  Object.assign(darkModeBtn.style, {
+    position: "fixed",
+    top: "30px",
+    right: "30px",
+    padding: "0.5rem 1rem",
+    borderRadius: "50px",
+    border: "none",
+    backgroundColor: "#222",
+    color: "#fff",
+    fontWeight: "bold",
+    cursor: "pointer",
+    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+    zIndex: "1000"
+  });
+
+  document.body.appendChild(darkModeBtn);
+  darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
   });
 
-  // Ouvrir/fermer contenu au clic sur les titres
-  document.querySelectorAll("h2").forEach(h2 => {
-    h2.addEventListener("click", () => {
-      h2.nextElementSibling.classList.toggle("open");
-    });
-  });
+  const style = document.createElement("style");
+  style.textContent = 
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    body.dark-mode h2, body.dark-mode p, body.dark-mode li {
+      color: #e0e0e0;
+    }
+    body.dark-mode .btn {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+  ;
+  document.head.appendChild(style);
 
-  // Effet de fade-in au chargement
   document.body.style.opacity = 0;
   document.body.style.transition = "opacity 1s ease-in-out";
-  requestAnimationFrame(() => {
+  window.requestAnimationFrame(() => {
     document.body.style.opacity = 1;
   });
 });
