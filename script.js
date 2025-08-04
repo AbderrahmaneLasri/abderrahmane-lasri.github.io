@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   sections.forEach((title) => {
     const content = title.nextElementSibling;
 
-    // Cliquez ou appuyez sur Entrée pour ouvrir/fermer la section
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
@@ -21,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Ajout d’un bouton pour remonter en haut
+  // Bouton de retour en haut
   const scrollBtn = document.createElement("button");
   scrollBtn.textContent = "↑ Haut";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
@@ -47,5 +46,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("scroll", () => {
     scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
+  });
+
+  // Bouton de mode sombre
+  const darkModeBtn = document.createElement("button");
+  darkModeBtn.textContent = "🌙 Mode Sombre";
+  darkModeBtn.setAttribute("aria-label", "Activer/désactiver le mode sombre");
+  darkModeBtn.style.position = "fixed";
+  darkModeBtn.style.top = "30px";
+  darkModeBtn.style.right = "30px";
+  darkModeBtn.style.padding = "0.5rem 1rem";
+  darkModeBtn.style.borderRadius = "50px";
+  darkModeBtn.style.border = "none";
+  darkModeBtn.style.backgroundColor = "#222";
+  darkModeBtn.style.color = "#fff";
+  darkModeBtn.style.fontWeight = "bold";
+  darkModeBtn.style.cursor = "pointer";
+  darkModeBtn.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+  darkModeBtn.style.zIndex = "1000";
+
+  document.body.appendChild(darkModeBtn);
+
+  darkModeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+  });
+
+  // Appliquer les styles du mode sombre
+  const style = document.createElement("style");
+  style.textContent = `
+    body.dark-mode {
+      background-color: #121212;
+      color: #e0e0e0;
+      transition: background-color 0.4s, color 0.4s;
+    }
+    body.dark-mode h2, body.dark-mode p {
+      color: #e0e0e0;
+    }
+    body.dark-mode button {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Effet de transition intelligente à l'ouverture
+  document.body.style.opacity = 0;
+  document.body.style.transition = "opacity 1s ease-in-out";
+  window.requestAnimationFrame(() => {
+    document.body.style.opacity = 1;
   });
 });
