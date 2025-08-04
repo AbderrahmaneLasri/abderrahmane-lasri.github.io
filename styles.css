@@ -65,6 +65,22 @@ footer {
     background: #000;
     color: #999;
 }
+#a-propos {
+    padding: 40px 0;
+    background-color: #f9f9f9;
+}
+
+#a-propos h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+#a-propos p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
 .photo-profil {
     width: 150px;           /* Largeur de l'image */
     height: auto;           /* Hauteur ajustée automatiquement */
