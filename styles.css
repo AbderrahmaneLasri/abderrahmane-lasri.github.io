@@ -1,41 +1,90 @@
-// Dark Mode Toggle
-document.getElementById("toggle-dark-mode").addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
 
-// Scroll Top
-document.getElementById("scroll-top").addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-// Language Toggle
-document.getElementById("lang-toggle").addEventListener("click", () => {
-  const fr = {
-    "À propos de moi": "About Me",
-    "Mon Parcours": "My Background",
-    "Stages": "Internships",
-    "Projets Académiques": "Academic Projects",
-    "Mes Voyages": "My Travels",
-    "Mes Passions": "My Passions",
-    "Langues": "Languages",
-    "Compétences Techniques": "Technical Skills",
-    "Notes de Vie ✍️": "Life Notes ✍️",
-    "Télécharger mon CV": "Download my CV",
-    "Mode Sombre": "Dark Mode",
-    "↑ Haut": "↑ Top"
-  };
+header {
+  background: #4ca1af;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
 
-  const elements = document.querySelectorAll("h2, a.btn, #toggle-dark-mode, #scroll-top");
+.intro img.photo-profil {
+  max-width: 150px;
+  border-radius: 50%;
+  margin-top: 20px;
+}
 
-  elements.forEach(el => {
-    if (fr[el.innerText]) {
-      el.innerText = fr[el.innerText];
-    } else {
-      const entry = Object.entries(fr).find(([frText, enText]) => enText === el.innerText);
-      if (entry) el.innerText = entry[0];
-    }
-  });
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+  color: #4ca1af;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+}
 
-  const langBtn = document.getElementById("lang-toggle");
-  langBtn.innerText = langBtn.innerText.includes("English") ? "🇫🇷 Français" : "🇬🇧 English";
-});
+.btn:hover {
+  background-color: #eee;
+}
+
+h2 {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-left: 4px solid #4ca1af;
+  transition: background-color 0.3s;
+}
+
+h2:hover {
+  background-color: #e0e0e0;
+}
+
+.toggle-content {
+  display: none;
+  padding: 10px 15px;
+  border-left: 4px solid #4ca1af;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+  transition: all 0.4s ease;
+}
+
+.toggle-content.open {
+  display: block;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-size: 0.9em;
+}
+
+/* Mode sombre */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark-mode h2 {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark-mode .toggle-content {
+  background-color: #1a1a1a;
+  border-left-color: #4ca1af;
+} 
