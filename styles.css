@@ -12,6 +12,7 @@ body {
   color: #1a1a1a;
   line-height: 1.8;
   scroll-behavior: smooth;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 /* Container */
@@ -109,7 +110,7 @@ header p {
   box-shadow: 0 6px 20px rgba(28, 61, 120, 0.3);
 }
 
-/* Section titles - Accordéon */
+/* Section titles */
 h2 {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
@@ -140,12 +141,12 @@ section {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Toggle effect for sections */
+/* Accordéon fluide */
 .toggle-content {
   max-height: 0;
+  opacity: 0;
   overflow: hidden;
   transition: max-height 0.6s ease, opacity 0.6s ease;
-  opacity: 0;
 }
 .toggle-content.open {
   max-height: 1000px;
@@ -194,6 +195,35 @@ footer {
   font-size: 0.9rem;
   background: #11224d;
   color: #ccc;
+}
+
+/* Thème sombre */
+body.dark-theme {
+  background: #1a1a1a;
+  color: #f0f0f0;
+}
+body.dark-theme header {
+  background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
+}
+body.dark-theme .btn {
+  border-color: #f0f0f0;
+  color: #f0f0f0;
+}
+body.dark-theme .btn:hover {
+  background: #f0f0f0;
+  color: #1a1a1a;
+}
+body.dark-theme section {
+  border-color: #444;
+}
+body.dark-theme ul li::before {
+  color: #ccc;
+}
+body.dark-theme h2 {
+  color: #90caf9;
+}
+body.dark-theme section p {
+  color: #ddd;
 }
 
 /* Responsive */
