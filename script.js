@@ -1,110 +1,61 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const sections = document.querySelectorAll("h2");
+  const langToggle = document.getElementById("lang-toggle");
+  let isEnglish = false;
 
-  sections.forEach((title) => {
-    const content = title.nextElementSibling;
-    const toggle = () => {
-      const expanded = title.getAttribute("aria-expanded") === "true";
-      title.setAttribute("aria-expanded", String(!expanded));
-      content.classList.toggle("open");
-    };
-    title.addEventListener("click", toggle);
-    title.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
+  langToggle.addEventListener("click", () => {
+    const textsFr = [
+      "À propos de moi", "Mon Parcours", "Stages", "Projets Académiques",
+      "Mes Voyages", "Mes Passions", "Langues", "Compétences Techniques", "Notes de Vie ✍️",
+      "Présentation personnelle ici.", "Détails sur le parcours académique et professionnel.",
+      "Description de mes expériences à l'international.",
+      "Description de mes centres d'intérêt personnels.",
+      "Français - Langue maternelle", "Anglais - Avancé", "Espagnol - Intermédiaire",
+      "Programmation (Python, C++)", "CAO (SolidWorks, CATIA)", "Gestion de projet (MS Project, Trello)",
+      "“La réussite appartient à tout le monde. C’est au travail d’équipe qu’en revient le mérite.”"
+    ];
+
+    const textsEn = [
+      "About Me", "My Background", "Internships", "Academic Projects",
+      "My Travels", "My Passions", "Languages", "Technical Skills", "Life Notes ✍️",
+      "Personal introduction here.", "Details about academic and professional background.",
+      "Description of my international experiences.",
+      "Description of my personal interests.",
+      "French - Native", "English - Advanced", "Spanish - Intermediate",
+      "Programming (Python, C++)", "CAD (SolidWorks, CATIA)", "Project Management (MS Project, Trello)",
+      "“Success belongs to everyone. It is teamwork that deserves the credit.”"
+    ];
+
+    document.querySelectorAll("h2, .toggle-content p, .toggle-content li, blockquote").forEach((el, i) => {
+      el.innerHTML = isEnglish ? textsFr[i] : textsEn[i];
     });
+
+    langToggle.textContent = isEnglish ? "🇬🇧 English" : "🇫🇷 Français";
+    isEnglish = !isEnglish;
   });
 
-  // Scroll top button
-  const scrollBtn = document.getElementById("scroll-top");
+  // Scroll button
+  const scrollTop = document.getElementById("scroll-top");
   window.addEventListener("scroll", () => {
-    scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
+    scrollTop.style.display = window.scrollY > 300 ? "block" : "none";
   });
-  scrollBtn.addEventListener("click", () => {
+  scrollTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  // Dark mode toggle
-  const darkBtn = document.getElementById("toggle-dark-mode");
-  if (localStorage.getItem("theme") === "dark") {
-    document.body.classList.add("dark-mode");
-  }
-  darkBtn.addEventListener("click", () => {
+  // Mode sombre
+  const darkToggle = document.getElementById("toggle-dark-mode");
+  darkToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
   });
 
-  // Lang toggle
-  const translations = {
-    fr: {
-      "À propos de moi": "About Me",
-      "Mon Parcours": "My Journey",
-      "Mes Voyages 🌍": "My Travels 🌍",
-      "Mes Passions ❤️": "My Passions ❤️",
-      "Langues": "Languages",
-      "Compétences Techniques": "Technical Skills",
-      "Notes de Vie ✍️": "Life Quotes ✍️",
-      "Télécharger mon CV": "Download My Resume",
-      "Remonter en haut": "Back to Top",
-      "Mode Sombre": "Dark Mode"
-    },
-    en: {}
-  };
-  for (const key in translations.fr) {
-    translations.en[translations.fr[key]] = key;
-  }
-
-  let currentLang = "fr";
-  const langBtn = document.getElementById("lang-toggle");
-  langBtn.addEventListener("click", () => {
-    const map = translations[currentLang];
-    document.querySelectorAll("h2, button, a, p, li, strong, blockquote").forEach(el => {
-      const text = el.textContent.trim();
-      if (map[text]) el.textContent = map[text];
+  // Ouvrir/fermer contenu au clic sur les titres
+  document.querySelectorAll("h2").forEach(h2 => {
+    h2.addEventListener("click", () => {
+      h2.nextElementSibling.classList.toggle("open");
     });
-    currentLang = currentLang === "fr" ? "en" : "fr";
-    langBtn.textContent = currentLang === "fr" ? "🇬🇧 English" : "🇫🇷 Français";
   });
 
-  // Fade in on scroll
-  const faders = document.querySelectorAll('.toggle-content');
-  const appearOnScroll = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-  faders.forEach(fader => {
-    fader.classList.add('fade-in');
-    appearOnScroll.observe(fader);
-  });
-
-  // Bienvenue message
-  const welcome = document.createElement("div");
-  welcome.textContent = "👋 Bienvenue ! Faites défiler pour découvrir mon univers.";
-  Object.assign(welcome.style, {
-    position: "fixed",
-    top: "10px",
-    left: "50%",
-    transform: "translateX(-50%)",
-    backgroundColor: "#4ca1af",
-    color: "white",
-    padding: "10px 20px",
-    borderRadius: "30px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-    zIndex: 1001,
-    opacity: "0",
-    transition: "opacity 0.8s"
-  });
-  document.body.appendChild(welcome);
-  setTimeout(() => { welcome.style.opacity = "1"; }, 500);
-  setTimeout(() => { welcome.style.opacity = "0"; }, 5000);
-
-  // Fade in page
+  // Effet de fade-in au chargement
   document.body.style.opacity = 0;
   document.body.style.transition = "opacity 1s ease-in-out";
   requestAnimationFrame(() => {
