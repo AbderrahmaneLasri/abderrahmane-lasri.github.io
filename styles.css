@@ -1,3 +1,4 @@
+
 body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
@@ -35,6 +36,7 @@ header {
   font-weight: bold;
   border-radius: 30px;
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .btn:hover {
@@ -54,16 +56,19 @@ h2:hover {
 }
 
 .toggle-content {
-  display: none;
-  padding: 10px 15px;
-  border-left: 4px solid #4ca1af;
-  margin-bottom: 20px;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+  border-left: 4px solid transparent;
   background-color: #fafafa;
-  transition: all 0.4s ease;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .toggle-content.open {
-  display: block;
+  max-height: 1000px;
+  padding: 10px 15px;
+  border-left-color: #4ca1af;
 }
 
 footer {
@@ -87,4 +92,19 @@ body.dark-mode h2 {
 body.dark-mode .toggle-content {
   background-color: #1a1a1a;
   border-left-color: #4ca1af;
-} 
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .intro img.photo-profil {
+    width: 100px;
+  }
+}
