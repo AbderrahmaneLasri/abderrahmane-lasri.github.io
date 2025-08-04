@@ -1,242 +1,163 @@
-/* Reset */
+/* Général */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Global */
-body {
-  font-family: 'Open Sans', sans-serif;
-  background: #fdfcfb;
-  color: #1a1a1a;
-  line-height: 1.8;
+html {
   scroll-behavior: smooth;
-  transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* Container */
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.7;
+  background-color: #f5f7fa;
+  color: #222;
+  padding-bottom: 80px;
+}
+
 .container {
   width: 90%;
-  max-width: 1100px;
-  margin: auto;
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* Header */
+/* En-tête */
 header {
-  background: linear-gradient(135deg, #11224d, #1c3d78);
+  background: linear-gradient(to right, #2c3e50, #4ca1af);
+  color: white;
   text-align: center;
-  padding: 6rem 2rem;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
+  padding: 4rem 1rem;
 }
-header::after {
-  content: "";
-  position: absolute;
-  width: 250%;
-  height: 250%;
-  top: -75%;
-  left: -75%;
-  background: radial-gradient(circle, rgba(28, 61, 120, 0.08), transparent 80%);
-  animation: spin 40s linear infinite;
-  z-index: 0;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-header h1 {
+
+.intro h1 {
   font-family: 'Playfair Display', serif;
-  font-size: 3.5rem;
-  color: #ffffff;
-  z-index: 1;
-  position: relative;
-  animation: fadeInDown 1s ease-out;
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
 }
-header p {
-  font-size: 1.3rem;
-  color: #eee;
+
+.intro p {
+  font-size: 1.2rem;
   margin-bottom: 2rem;
-  z-index: 1;
-  position: relative;
-  animation: fadeInUp 1.2s ease-out;
-}
-@keyframes fadeInDown {
-  0% { opacity: 0; transform: translateY(-30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Profile Photo */
 .photo-profil {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  border: 4px solid #1c3d78;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  margin-top: 20px;
-  transition: transform 0.5s, box-shadow 0.5s;
-}
-.photo-profil:hover {
-  transform: scale(1.1);
-  box-shadow: 0 15px 35px rgba(28, 61, 120, 0.4);
+  border: 4px solid #fff;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Button */
+/* Liens boutons */
 .btn {
   display: inline-block;
-  background: transparent;
-  color: #1c3d78;
-  border: 2px solid #1c3d78;
-  padding: 0.75rem 1.8rem;
   margin: 0.5rem;
-  border-radius: 30px;
+  padding: 0.7rem 1.5rem;
+  background-color: #ffffff;
+  color: #2c3e50;
+  border: 2px solid #2c3e50;
   text-decoration: none;
   font-weight: bold;
-  transition: all 0.4s ease;
-  position: relative;
-  z-index: 1;
-}
-.btn:hover {
-  background: #1c3d78;
-  color: #fff;
-  transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 6px 20px rgba(28, 61, 120, 0.3);
-}
-
-/* Section titles */
-h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #1c3d78;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  position: relative;
-}
-h2:hover {
-  color: #2e58a6;
-}
-h2::after {
-  content: " ▼";
-  font-size: 1rem;
-  color: #999;
-  margin-left: 10px;
-}
-
-/* Section container */
-section {
-  padding: 2.5rem 0;
-  animation: fadeIn 1s ease both;
-  border-bottom: 1px solid #ddd;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Accordéon fluide */
-.toggle-content {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.6s ease, opacity 0.6s ease;
-}
-.toggle-content.open {
-  max-height: 1000px;
-  opacity: 1;
-}
-
-/* Justify paragraphs in a-propos */
-#a-propos p {
-  text-align: justify;
-}
-
-/* Paragraphs */
-section p {
-  font-size: 1.05rem;
-  margin-bottom: 1.2rem;
-  color: #333;
-}
-
-/* Lists */
-ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-ul li {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  padding-left: 1.5rem;
-  position: relative;
+  border-radius: 30px;
   transition: all 0.3s ease;
 }
-ul li::before {
-  content: "★";
-  position: absolute;
-  left: 0;
-  color: #1c3d78;
-}
-ul li:hover {
-  transform: translateX(6px);
-  color: #1c3d78;
+
+.btn:hover {
+  background-color: #2c3e50;
+  color: white;
 }
 
-/* Footer */
+/* Sections */
+section {
+  margin: 2rem 0;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+h2::after {
+  content: '▼';
+  font-size: 0.9rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+
+h2[aria-expanded="true"]::after {
+  transform: rotate(180deg);
+}
+
+.toggle-content {
+  display: none;
+  margin-top: 1rem;
+}
+
+.toggle-content.open {
+  display: block;
+}
+
+/* Listes */
+ul {
+  list-style: none;
+  padding-left: 1rem;
+}
+
+ul li::before {
+  content: "• ";
+  color: #4ca1af;
+  font-weight: bold;
+}
+
+/* Citations */
+blockquote {
+  font-style: italic;
+  background: #ecf0f1;
+  padding: 1rem;
+  border-left: 5px solid #4ca1af;
+  margin-bottom: 1rem;
+}
+
+/* Pied de page */
 footer {
   text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-  background: #11224d;
-  color: #ccc;
-}
-
-/* Thème sombre */
-body.dark-theme {
-  background: #1a1a1a;
-  color: #f0f0f0;
-}
-body.dark-theme header {
-  background: linear-gradient(135deg, #0a0a0a, #1c1c1c);
-}
-body.dark-theme .btn {
-  border-color: #f0f0f0;
-  color: #f0f0f0;
-}
-body.dark-theme .btn:hover {
-  background: #f0f0f0;
-  color: #1a1a1a;
-}
-body.dark-theme section {
-  border-color: #444;
-}
-body.dark-theme ul li::before {
-  color: #ccc;
-}
-body.dark-theme h2 {
-  color: #90caf9;
-}
-body.dark-theme section p {
-  color: #ddd;
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2.5rem;
+@media (max-width: 600px) {
+  .intro h1 {
+    font-size: 2.2rem;
   }
+
   .photo-profil {
     width: 120px;
     height: 120px;
   }
+
   .btn {
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
   }
 }
