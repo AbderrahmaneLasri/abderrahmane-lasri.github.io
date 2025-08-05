@@ -1,23 +1,33 @@
+// Attendre que le DOM soit entièrement chargé
+document.addEventListener("DOMContentLoaded", () => {
+  const headers = document.querySelectorAll("section h2");
 
-document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll("h2");
+  headers.forEach((header) => {
+    const content = header.nextElementSibling;
 
-  sections.forEach((h2) => {
-    h2.addEventListener("click", function () {
-      const content = this.nextElementSibling;
-      content.classList.toggle("open");
+    // Définir le style initial
+    content.style.display = "block"; // Affiché par défaut
 
-      const expanded = this.getAttribute("aria-expanded") === "true";
-      this.setAttribute("aria-expanded", !expanded);
+    // Ajouter le curseur pointeur
+    header.style.cursor = "pointer";
+
+    // Gestion du clic sur les titres
+    header.addEventListener("click", () => {
+      const isVisible = content.style.display === "block";
+      
+      // Animation douce avec opacity + height
+      if (isVisible) {
+        content.style.opacity = "0";
+        setTimeout(() => {
+          content.style.display = "none";
+        }, 200);
+      } else {
+        content.style.display = "block";
+        content.style.opacity = "0";
+        setTimeout(() => {
+          content.style.opacity = "1";
+        }, 10);
+      }
     });
-  });
-
-  const toggleBtn = document.createElement("button");
-  toggleBtn.textContent = "🌙 Mode sombre / clair";
-  toggleBtn.className = "btn";
-  document.querySelector("header .container").appendChild(toggleBtn);
-
-  toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
   });
 });
