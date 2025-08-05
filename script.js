@@ -1,32 +1,29 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Affichage du message de bienvenue et effet fade-in du body
   const welcome = document.getElementById("welcome-message");
-  document.body.style.opacity = 0;
 
+  // Affiche le contenu principal en ajoutant la classe 'ready' au body
+  document.body.classList.add("ready");
+
+  // Faire disparaître le message de bienvenue après 3 secondes
   setTimeout(() => {
     welcome.classList.add("fade-out");
-  }, 3000); // Disparait après 3s
+  }, 3000);
 
+  // Supprimer le message et laisser tout visible après 4 secondes
   setTimeout(() => {
-    if (welcome.parentNode) welcome.parentNode.removeChild(welcome);
-    document.body.style.opacity = 1;
-  }, 4000); // Après 4s total
+    welcome.remove();
+  }, 4000);
 
-  // Comportement des sections accordéon
-  const headers = document.querySelectorAll("h2.toggle-header");
-  headers.forEach((title) => {
+  // Comportement des sections (accordion)
+  const sections = document.querySelectorAll("h2");
+
+  sections.forEach((title) => {
     const content = title.nextElementSibling;
-    const chevron = title.querySelector(".chevron");
 
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
-      if (chevron) {
-        chevron.style.transform = content.classList.contains("open")
-          ? "rotate(180deg)"
-          : "rotate(0deg)";
-      }
     };
 
     title.addEventListener("click", toggle);
@@ -89,17 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(darkModeBtn);
 
-  // Persistance du mode sombre (optionnel)
-  if (localStorage.getItem("dark-mode") === "true") {
-    document.body.classList.add("dark-mode");
-  }
-
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    localStorage.setItem("dark-mode", document.body.classList.contains("dark-mode"));
   });
 
-  // Style dynamique pour le mode sombre (pour JS-injecté uniquement)
+  // Style dynamique pour le mode sombre
   const style = document.createElement("style");
   style.textContent = `
     body.dark-mode {
