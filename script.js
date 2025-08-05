@@ -1,27 +1,22 @@
-// Mode sombre
-const toggleBtn = document.getElementById("toggle-theme");
-toggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("toggle-theme");
+  const body = document.body;
 
-// Scroll to top
-const scrollTopBtn = document.getElementById("scrollTop");
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > 200) {
-    scrollTopBtn.style.display = "block";
-  } else {
-    scrollTopBtn.style.display = "none";
+  // Check localStorage for theme preference
+  if (localStorage.getItem("theme") === "dark") {
+    body.classList.add("dark-mode");
+    toggleBtn.textContent = "☀️ Mode clair";
   }
-});
 
-scrollTopBtn.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
+  toggleBtn.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
 
-// Form handling
-document.getElementById("contact-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  document.getElementById("form-message").textContent = "Message envoyé ✅ (fonctionnalité de test)";
-  this.reset();
-});
+    if (body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "☀️ Mode clair";
+      localStorage.setItem("theme", "dark");
+    } else {
+      toggleBtn.textContent = "🌙 Mode sombre";
+      localStorage.setItem("theme", "light");
+    }
+  });
+}); 
