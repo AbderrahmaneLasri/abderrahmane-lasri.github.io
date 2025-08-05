@@ -51,3 +51,11 @@ const observer = new IntersectionObserver(entries => {
 fadeIns.forEach(section => {
   observer.observe(section);
 });
+
+// ✅ Écran d’intro animé
+window.addEventListener('load', () => {
+  const intro = document.getElementById('intro-screen');
+  setTimeout(() => {
+    intro.style.display = 'none';
+  }, 4000); // Laisse le temps à l’animation d’être visible
+});
