@@ -10,33 +10,81 @@
 </head>
 <body class="light-mode">
 
-  <!-- ✅ Écran d’introduction -->
-  <div id="intro-screen">
-    <h1 id="intro-text">Bienvenue dans mon portfolio</h1>
-  </div>
-
+  <!-- Thème clair/sombre -->
   <button id="toggle-theme" aria-label="Basculer le mode sombre">🌙 Mode sombre</button>
+
+  <!-- Bandeau d’introduction -->
+  <div class="intro-banner">
+    <h2 id="intro-text"></h2>
+  </div>
 
   <header class="fade-in">
     <div class="container intro">
       <h1>Abderrahmane Lasri</h1>
       <p>Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
       <img src="photo.jpg" alt="Photo de Abderrahmane Lasri" class="photo-profil animated" />
+
+      <!-- Navigation -->
+      <nav>
+        <a href="#apropos">À propos</a>
+        <a href="#parcours">Parcours</a>
+        <a href="#competences">Compétences</a>
+        <a href="#projets">Projets</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
       <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank" class="btn">🔗 LinkedIn</a>
       <a href="CV.pdf" class="btn" download>📄 Télécharger mon CV</a>
     </div>
   </header>
 
   <main>
-    <!-- sections inchangées -->
-    <!-- ... garde toutes tes sections A propos, Parcours, etc. ... -->
+    <section class="fade-in" id="apropos">
+      <h2>À propos de moi</h2>
+      <p>Je suis un ingénieur diplômé en Mécatronique avec une passion pour la gestion de projets et les technologies innovantes.</p>
+    </section>
+
+    <section class="fade-in" id="parcours">
+      <h2>Parcours académique</h2>
+      <ul>
+        <li>🎓 2025–2026 – Mastère Spécialisé® Management de Projets – CESI Paris-Nanterre</li>
+        <li>🎓 2022–2025 – Diplôme d’Ingénieur en Mécatronique – UTC Compiègne</li>
+        <li>🎓 2020–2022 – CPGE TSI Casablanca – Prépas Grandes Écoles</li>
+        <li>🎓 2019–2020 – Bac Sciences & Technologies Électriques – Mention Très Bien</li>
+      </ul>
+    </section>
+
+    <section class="fade-in" id="competences">
+      <h2>Compétences techniques</h2>
+      <ul>
+        <li>🔧 Mécatronique, électronique embarquée</li>
+        <li>💻 Programmation : Python, C/C++, JavaScript</li>
+        <li>📊 Gestion de projets, planification, analyse</li>
+      </ul>
+    </section>
+
+    <section class="fade-in" id="projets">
+      <h2>Projets réalisés</h2>
+      <p>Voici quelques projets que j’ai menés :</p>
+      <ul>
+        <li>🔬 Système de surveillance automatisé basé sur Arduino</li>
+        <li>📈 Outil de suivi de projets avec indicateurs de performance</li>
+        <li>🤖 Robot suiveur de ligne – intégration mécatronique complète</li>
+      </ul>
+    </section>
+
+    <section class="fade-in" id="contact">
+      <h2>Contact</h2>
+      <p>📧 Email : abderrahmane.lasri@example.com</p>
+      <p>📞 Téléphone : +212 6 00 00 00 00</p>
+    </section>
   </main>
 
   <footer>
     <p>© 2025 Abderrahmane Lasri – Tous droits réservés</p>
   </footer>
 
-  <!-- Bouton pour remonter en haut -->
+  <!-- Bouton remonter en haut -->
   <button id="scroll-top" aria-label="Remonter en haut">🔝</button>
 
 </body>
