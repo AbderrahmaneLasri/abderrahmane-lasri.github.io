@@ -1,30 +1,26 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const toggleBtn = document.getElementById("toggle-theme");
-  const body = document.body;
-
-  if (localStorage.getItem("theme") === "dark") {
-    body.classList.add("dark-mode");
-    toggleBtn.textContent = "☀️ Mode clair";
-  }
+  const scrollBtn = document.getElementById("scrollTop");
+  const form = document.getElementById("contact-form");
+  const message = document.getElementById("form-message");
 
   toggleBtn.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-    const mode = body.classList.contains("dark-mode") ? "dark" : "light";
-    toggleBtn.textContent = mode === "dark" ? "☀️ Mode clair" : "🌙 Mode sombre";
-    localStorage.setItem("theme", mode);
+    document.body.classList.toggle("dark-mode");
+    document.body.classList.toggle("light-mode");
   });
 
-  // Form submission (demo purpose)
-  const form = document.getElementById("contact-form");
-  const msg = document.getElementById("form-message");
+  window.addEventListener("scroll", () => {
+    scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+  });
 
-  form.addEventListener("submit", e => {
+  scrollBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
-    msg.textContent = "✅ Merci ! Votre message a été envoyé.";
+    message.textContent = "Message envoyé avec succès ! ✅";
     form.reset();
-
-    setTimeout(() => {
-      msg.textContent = "";
-    }, 5000);
   });
 });
