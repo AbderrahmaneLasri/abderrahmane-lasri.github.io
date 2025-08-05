@@ -1,17 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Basculer le mode sombre
-  const themeToggleBtn = document.getElementById("toggle-theme");
+  const toggleBtn = document.getElementById("toggle-theme");
+  const body = document.body;
 
-  themeToggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    themeToggleBtn.textContent = isDark ? "☀️ Mode clair" : "🌙 Mode sombre";
-  });
+  // Check localStorage for theme preference
+  if (localStorage.getItem("theme") === "dark") {
+    body.classList.add("dark-mode");
+    toggleBtn.textContent = "☀️ Mode clair";
+  }
 
-  // Apparition fluide des sections
-  const fadeIns = document.querySelectorAll(".fade-in");
+  toggleBtn.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
 
-  fadeIns.forEach((el, i) => {
-    el.style.animationDelay = `${i * 0.2}s`;
+    if (body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "☀️ Mode clair";
+      localStorage.setItem("theme", "dark");
+    } else {
+      toggleBtn.textContent = "🌙 Mode sombre";
+      localStorage.setItem("theme", "light");
+    }
   });
 });
