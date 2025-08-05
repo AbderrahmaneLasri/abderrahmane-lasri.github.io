@@ -1,13 +1,13 @@
-// Preloader
+// Preloader Effect
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
   setTimeout(() => {
     preloader.style.opacity = '0';
     preloader.style.visibility = 'hidden';
-  }, 2000);
+  }, 2500);
 });
 
-// Barre de progression
+// Scroll Progress Bar & Scroll to Top Button
 window.addEventListener('scroll', () => {
   const progressBar = document.getElementById('progress-bar');
   const scrollTop = window.scrollY;
@@ -19,12 +19,12 @@ window.addEventListener('scroll', () => {
   scrollTopBtn.style.display = scrollTop > 300 ? 'block' : 'none';
 });
 
-// Bouton retour en haut
+// Scroll to Top Button Click
 document.getElementById('scroll-top').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Mode sombre / clair
+// Theme Toggle (Light/Dark)
 const themeToggle = document.getElementById('toggle-theme');
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
@@ -33,16 +33,17 @@ themeToggle.addEventListener('click', () => {
   icon.classList.toggle('fa-sun');
 });
 
-// Animation des sections
+// ScrollReveal Animations
 ScrollReveal().reveal('.section', {
   origin: 'bottom',
   distance: '50px',
   duration: 1000,
   easing: 'ease-in-out',
+  interval: 200,
   reset: false
 });
 
-// Traduction dynamique
+// Dynamic Language Switch
 let currentLang = 'fr';
 const translations = {
   en: {
@@ -73,7 +74,7 @@ document.getElementById('toggle-lang').addEventListener('click', () => {
   }
 });
 
-// Menu responsive
+// Responsive Navigation Toggle
 const navToggleBtn = document.createElement('button');
 navToggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
 navToggleBtn.classList.add('nav-toggle-btn');
@@ -83,7 +84,7 @@ navToggleBtn.addEventListener('click', () => {
   document.querySelector('.nav-links').classList.toggle('active');
 });
 
-// Smooth scroll
+// Smooth Scroll on Nav Links
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
