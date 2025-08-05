@@ -2,220 +2,106 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Abderrahmane Lasri - Portfolio</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-
-    header {
-      background: linear-gradient(135deg, #0077b6, #00b4d8);
-      color: white;
-      text-align: center;
-      padding: 60px 20px;
-    }
-
-    .intro h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 3em;
-      margin-bottom: 10px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: white;
-      color: #0077b6;
-      padding: 10px 20px;
-      margin: 10px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #00b4d8;
-      color: white;
-    }
-
-    .photo-profil {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin: 20px 0;
-      border: 4px solid white;
-    }
-
-    section {
-      margin-bottom: 50px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.05);
-      overflow: hidden;
-    }
-
-    section h2 {
-      margin: 0;
-      padding: 20px;
-      background: #00b4d8;
-      color: white;
-      cursor: pointer;
-      font-size: 1.5em;
-      position: relative;
-    }
-
-    section h2::after {
-      content: '▼';
-      position: absolute;
-      right: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    section.open h2::after {
-      transform: rotate(180deg);
-    }
-
-    .content-wrapper {
-      padding: 20px;
-      overflow: hidden;
-      transition: max-height 0.6s ease-in-out;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #0077b6;
-      color: white;
-      margin-top: 40px;
-    }
-  </style>
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="intro">
-        <h1>Abderrahmane Lasri</h1>
-        <p>Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
-        <img src="photo.jpg" alt="Photo de Abderrahmane Lasri" class="photo-profil" />
-        <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank" class="btn">LinkedIn</a>
-        <a href="CV.pdf" class="btn" download>Télécharger mon CV</a>
-      </div>
+  <button id="toggle-theme">🌓</button>
+
+  <header class="fade-in">
+    <div class="container intro">
+      <h1>Abderrahmane Lasri</h1>
+      <p>Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
+      <img src="photo.jpg" alt="Photo de Abderrahmane Lasri" class="photo-profil animated" />
+      <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank" class="btn">🔗 LinkedIn</a>
+      <a href="CV.pdf" class="btn" download>📄 Télécharger mon CV</a>
     </div>
   </header>
 
-  <section id="a-propos">
-    <h2>À propos de moi</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <p>Bonjour, je m'appelle <strong>Abderrahmane Lasri</strong>, j’ai 25 ans et je suis originaire du Maroc. Curieux, rigoureux et passionné par l’innovation technologique, mon parcours allie expertise technique et ouverture à l’international.</p>
-        <p>Mon aventure académique a commencé à Agadir, au <strong>Lycée Technique Al Idrissi</strong> (2015–2018), où j’ai obtenu un baccalauréat en Sciences et Technologies Électriques. Attiré par l’ingénierie, j’ai poursuivi en <strong>Génie Électrique</strong> à l’<strong>École Supérieure de Technologie</strong>, décrochant un DUT en 2020.</p>
-        <p>Désireux d’élargir mes compétences, j’ai intégré l’<strong>ENSAM Rabat</strong>, puis l’<strong>Université de Technologie de Compiègne (UTC)</strong> en France, dans un programme de double diplôme en <strong>Mécatronique</strong>. Diplômé en 2025, je poursuis actuellement un Mastère Spécialisé® en Management de Projets à Paris.</p>
-        <p><strong>Je suis à la recherche d’une alternance à partir d’octobre 2025</strong>, dans le cadre de ce Mastère. Mon rythme est de 3 semaines entreprise / 1 semaine école.</p>
+  <main>
+    <section id="a-propos" class="fade-in">
+      <h2>À propos de moi</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <p>Bonjour, je m'appelle <strong>Abderrahmane Lasri</strong>, j’ai 25 ans et je suis originaire du Maroc. Ingénieur en mécatronique diplômé de l’UTC Compiègne et actuellement étudiant en Mastère Spécialisé® Management de Projets à CESI Paris-Nanterre, je suis passionné par la technologie, l’innovation et la gestion d’équipes. J’aime apprendre de nouvelles compétences, voyager et relever des défis professionnels et personnels.</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="parcours">
-    <h2>Mon Parcours</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <ul>
-          <li><strong>2025–2026</strong> – CESI Paris-Nanterre – Mastère Spécialisé® Management de Projets</li>
-          <li><strong>2022–2025</strong> – UTC Compiègne – Diplôme d’Ingénieur en Mécatronique</li>
-          <li><strong>2020–2022</strong> – ENSAM Rabat – Ingénierie Électrique</li>
-          <li><strong>2018–2020</strong> – EST Agadir – DUT en Génie Électrique</li>
-          <li><strong>2015–2018</strong> – Lycée Technique Al Idrissi – Baccalauréat Sciences et Technologies Électriques</li>
-        </ul>
+    <section id="parcours" class="fade-in">
+      <h2>Mon Parcours 🎓</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <ul>
+            <li><strong>2025–2026</strong> – CESI Paris-Nanterre – Mastère Spécialisé® Management de Projets</li>
+            <li><strong>2022–2025</strong> – UTC Compiègne – Diplôme d’Ingénieur en Mécatronique</li>
+            <li><strong>2020–2022</strong> – CPGE TSI Casablanca – Classes préparatoires aux grandes écoles</li>
+            <li><strong>2019–2020</strong> – Baccalauréat Sciences et Technologies Electriques – Mention Très Bien</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="voyages">
-    <h2>Mes Voyages 🌍</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <p>🇲🇦 Maroc, 🇫🇷 France, 🇪🇸 Espagne, 🇲🇹 Malte, 🇮🇹 Italie, 🇳🇱 Pays-Bas, 🇨🇿 République Tchèque, 🇵🇱 Pologne, 🇧🇪 Belgique</p>
-        <p>Explorer différents pays m’a permis d’élargir ma vision du monde, de mieux comprendre les cultures et de développer une adaptabilité essentielle dans un environnement international.</p>
+    <section id="voyages" class="fade-in">
+      <h2>Mes Voyages 🌍</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <p>J’ai eu l’opportunité de visiter plusieurs pays, ce qui a enrichi ma vision du monde :</p>
+          <ul>
+            <li>🇲🇦 Maroc (Pays natal)</li>
+            <li>🇫🇷 France (études supérieures)</li>
+            <li>🇪🇸 Espagne (séjour linguistique)</li>
+            <li>🇲🇹 Malte (vacances culturelles)</li>
+            <li>🇮🇹 Italie (découverte de Rome et Florence)</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="passions">
-    <h2>Mes Passions ❤️</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <p>📖 Lecture, ✈️ Voyage, ⚽ Football</p>
-        <p>Je suis passionné par la découverte de nouveaux livres, le sport et les aventures humaines à travers le monde. Ces passions nourrissent ma curiosité, ma créativité et mon équilibre personnel.</p>
+    <section id="passions" class="fade-in">
+      <h2>Mes Passions ❤️</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <ul>
+            <li>📖 Lecture de développement personnel</li>
+            <li>✈️ Voyage et découverte de nouvelles cultures</li>
+            <li>⚽ Football et sports collectifs</li>
+            <li>🧠 Apprentissage continu (langues, tech, soft skills)</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="notes">
-    <h2>Notes de Vie ✍️</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <p>“Le voyage est la seule chose qu’on achète qui nous rend plus riche.”</p>
-        <p>“Ne rêve pas ta vie, vis tes rêves.”</p>
+    <section id="notes" class="fade-in">
+      <h2>Notes de Vie ✍️</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <p>“Le voyage est la seule chose qu’on achète qui nous rend plus riche.”</p>
+          <p>“L’avenir appartient à ceux qui croient à la beauté de leurs rêves.” – Eleanor Roosevelt</p>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="langues">
-    <h2>Langues</h2>
-    <div class="content-wrapper">
-      <div class="container">
-        <ul>
-          <li><strong>Arabe</strong> – Langue maternelle</li>
-          <li><strong>Tamazight</strong> – Langue maternelle</li>
-          <li><strong>Français</strong> – Niveau avancé (C1)</li>
-          <li><strong>Anglais</strong> – Niveau avancé (B2-C1)</li>
-        </ul>
+    <section id="langues" class="fade-in">
+      <h2>Langues 🌐</h2>
+      <div class="content-wrapper">
+        <div class="container">
+          <ul>
+            <li><strong>Arabe</strong> – Langue maternelle</li>
+            <li><strong>Français</strong> – Niveau avancé (C1)</li>
+            <li><strong>Anglais</strong> – Niveau intermédiaire/avancé (B2+)</li>
+            <li><strong>Espagnol</strong> – Niveau débutant</li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer>
     <p>© 2025 Abderrahmane Lasri – Tous droits réservés</p>
   </footer>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const sections = document.querySelectorAll("section");
-
-      sections.forEach(section => {
-        const title = section.querySelector("h2");
-        const wrapper = section.querySelector(".content-wrapper");
-
-        // Initial state
-        wrapper.style.maxHeight = wrapper.scrollHeight + "px";
-        section.classList.add("open");
-
-        // Toggle
-        title.addEventListener("click", () => {
-          if (section.classList.contains("open")) {
-            wrapper.style.maxHeight = "0";
-            section.classList.remove("open");
-          } else {
-            wrapper.style.maxHeight = wrapper.scrollHeight + "px";
-            section.classList.add("open");
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>
