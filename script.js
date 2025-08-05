@@ -1,22 +1,53 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-theme");
-  const body = document.body;
+// ✅ Thème clair/sombre
+const themeButton = document.getElementById('toggle-theme');
+const body = document.body;
 
-  // Check localStorage for theme preference
-  if (localStorage.getItem("theme") === "dark") {
-    body.classList.add("dark-mode");
-    toggleBtn.textContent = "☀️ Mode clair";
+// Charger le thème sauvegardé
+if (localStorage.getItem('theme') === 'dark') {
+  body.classList.add('dark-mode');
+  themeButton.textContent = '☀️ Mode clair';
+}
+
+themeButton.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+  const isDark = body.classList.contains('dark-mode');
+  themeButton.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
+
+// ✅ Bouton remonter en haut 🔝
+const scrollBtn = document.getElementById('scroll-top');
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 300) {
+    scrollBtn.style.display = 'block';
+  } else {
+    scrollBtn.style.display = 'none';
   }
+});
 
-  toggleBtn.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
+scrollBtn.addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
 
-    if (body.classList.contains("dark-mode")) {
-      toggleBtn.textContent = "☀️ Mode clair";
-      localStorage.setItem("theme", "dark");
-    } else {
-      toggleBtn.textContent = "🌙 Mode sombre";
-      localStorage.setItem("theme", "light");
+// ✅ Animation fade-in au scroll
+const fadeIns = document.querySelectorAll('.fade-in');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationDelay = '0.1s';
+      entry.target.classList.add('appear');
+      observer.unobserve(entry.target);
     }
   });
-}); 
+}, {
+  threshold: 0.1
+});
+
+fadeIns.forEach(section => {
+  observer.observe(section);
+});
