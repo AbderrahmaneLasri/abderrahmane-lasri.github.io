@@ -1,114 +1,68 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portfolio de Abderrahmane Lasri, ingénieur en mécatronique et étudiant en management de projets." />
+  <meta name="description" content="Portfolio professionnel de Abderrahmane Lasri." />
+  <meta name="author" content="Abderrahmane Lasri" />
+  <meta property="og:title" content="Abderrahmane Lasri - Portfolio" />
+  <meta property="og:description" content="Ingénieur passionné par la technologie et la gestion de projets." />
+  <meta property="og:image" content="photo.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <title>Abderrahmane Lasri - Portfolio</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
   <script defer src="script.js"></script>
 </head>
 <body class="light-mode">
   <button id="toggle-theme" aria-label="Basculer le mode sombre">🌙 Mode sombre</button>
+  <button id="scrollTop" aria-label="Retour en haut">⬆️</button>
 
-  <header class="fade-in">
-    <nav class="navbar container">
+  <header>
+    <nav class="navbar">
       <h1>Abderrahmane Lasri</h1>
-      <ul class="nav-links">
+      <ul>
         <li><a href="#a-propos">À propos</a></li>
         <li><a href="#parcours">Parcours</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#projets">Projets</a></li>
         <li><a href="#voyages">Voyages</a></li>
         <li><a href="#passions">Passions</a></li>
         <li><a href="#langues">Langues</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-
-    <div class="container intro">
+    <div class="intro">
       <p>Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
-      <img src="photo.jpg" alt="Photo de Abderrahmane Lasri" class="photo-profil animated" />
-      <div class="buttons">
-        <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank" class="btn">🔗 LinkedIn</a>
-        <a href="CV.pdf" class="btn" download>📄 Télécharger mon CV</a>
+      <img src="photo.jpg" alt="Photo de Abderrahmane Lasri" />
+      <div>
+        <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank">🔗 LinkedIn</a>
+        <a href="CV.pdf" download>📄 Télécharger mon CV</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section id="a-propos" class="fade-in">
-      <h2>À propos de moi 📘</h2>
-      <div class="container">
-        <p><strong>Abderrahmane Lasri</strong>, 25 ans, originaire du Maroc. Ingénieur diplômé de l’UTC en Mécatronique, actuellement en Mastère Spécialisé® Management de Projets à CESI. Passionné par la tech, l’innovation, les équipes, et le développement personnel.</p>
-      </div>
-    </section>
-
-    <section id="parcours" class="fade-in">
-      <h2>Mon Parcours 🎓</h2>
-      <div class="container">
-        <ul>
-          <li><strong>2025–2026</strong> – CESI Paris-Nanterre – Mastère Spécialisé® Management de Projets</li>
-          <li><strong>2022–2025</strong> – UTC Compiègne – Diplôme d’Ingénieur en Mécatronique</li>
-          <li><strong>2020–2022</strong> – CPGE TSI Casablanca – Classes préparatoires</li>
-          <li><strong>2019–2020</strong> – Bac Sciences & Tech Électriques – Mention Très Bien</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="voyages" class="fade-in">
-      <h2>Mes Voyages 🌍</h2>
-      <div class="container">
-        <p>Mes expériences internationales m’ont permis d’élargir ma perspective :</p>
-        <ul>
-          <li>🇲🇦 Maroc</li>
-          <li>🇫🇷 France</li>
-          <li>🇪🇸 Espagne</li>
-          <li>🇲🇹 Malte</li>
-          <li>🇮🇹 Italie</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="passions" class="fade-in">
-      <h2>Mes Passions ❤️</h2>
-      <div class="container">
-        <ul>
-          <li>📖 Lecture de développement personnel</li>
-          <li>✈️ Découverte de nouvelles cultures</li>
-          <li>⚽ Sports collectifs</li>
-          <li>🧠 Apprentissage continu</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="langues" class="fade-in">
-      <h2>Langues 🌐</h2>
-      <div class="container">
-        <ul>
-          <li><strong>Arabe</strong> – Langue maternelle</li>
-          <li><strong>Français</strong> – Avancé (C1)</li>
-          <li><strong>Anglais</strong> – Intermédiaire/avancé (B2+)</li>
-          <li><strong>Espagnol</strong> – Débutant</li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="contact" class="fade-in">
+    <section id="a-propos"><h2>À propos de moi 📘</h2></section>
+    <section id="parcours"><h2>Mon Parcours 🎓</h2></section>
+    <section id="competences"><h2>Compétences 🛠️</h2></section>
+    <section id="projets"><h2>Projets 🚀</h2></section>
+    <section id="voyages"><h2>Mes Voyages 🌍</h2></section>
+    <section id="passions"><h2>Mes Passions ❤️</h2></section>
+    <section id="langues"><h2>Langues 🌐</h2></section>
+    <section id="contact">
       <h2>Me Contacter 📬</h2>
-      <div class="container">
-        <form id="contact-form">
-          <input type="text" name="name" placeholder="Votre nom" required />
-          <input type="email" name="email" placeholder="Votre email" required />
-          <textarea name="message" placeholder="Votre message" required></textarea>
-          <button type="submit" class="btn">Envoyer ✉️</button>
-        </form>
-        <p id="form-message"></p>
-      </div>
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Votre nom" required />
+        <input type="email" name="email" placeholder="Votre email" required />
+        <textarea name="message" placeholder="Votre message" required></textarea>
+        <button type="submit">Envoyer ✉️</button>
+      </form>
+      <p id="form-message"></p>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 Abderrahmane Lasri – Tous droits réservés</p>
-  </footer>
+  <footer><p>© 2025 Abderrahmane Lasri – Tous droits réservés</p></footer>
 </body>
 </html>
