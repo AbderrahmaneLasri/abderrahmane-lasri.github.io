@@ -88,3 +88,40 @@ body.dark-mode .toggle-content {
   background-color: #1a1a1a;
   border-left-color: #4ca1af;
 }
+
+/* Responsive Design - Mobile */
+@media screen and (max-width: 600px) {
+  header {
+    padding: 20px 10px;
+  }
+
+  .intro img.photo-profil {
+    max-width: 100px;
+    display: block;
+    margin: 20px auto;
+  }
+
+  .btn {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  p, li {
+    font-size: 0.95rem;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}
