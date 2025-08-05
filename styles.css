@@ -149,3 +149,40 @@ body.dark-mode .btn {
     transform: translateY(0);
   }
 }
+
+/* ✅ Écran d’intro animé */
+#intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #3399a6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOutIntro 1s ease forwards;
+  animation-delay: 3s;
+  font-family: 'Playfair Display', serif;
+}
+
+#intro-text {
+  font-size: 2.5rem;
+  opacity: 0;
+  animation: fadeInText 2s ease forwards;
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutIntro {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
