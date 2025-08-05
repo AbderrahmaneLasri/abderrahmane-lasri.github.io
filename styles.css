@@ -149,3 +149,13 @@ body.dark-mode .toggle-content {
   opacity: 0;
   pointer-events: none;
 }
+
+/* Au départ, cacher tout sauf le message */
+body > *:not(#welcome-message) {
+  display: none;
+}
+
+/* Quand prêt, afficher tout sauf le message */
+body.ready > *:not(#welcome-message) {
+  display: block;
+}
