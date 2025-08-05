@@ -9,17 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link rel="stylesheet" href="styles.css"/>
-  <script defer src="script.js"></script>
   <script defer src="https://unpkg.com/scrollreveal"></script>
+  <script defer src="script.js"></script>
 </head>
 <body class="light-mode">
 
-  <!-- Preloader (animation d’intro) -->
+  <!-- Preloader (Animation d’intro) -->
   <div id="preloader">
     <div class="loader"></div>
+    <h1 class="preloader-text">Bienvenue dans mon Portfolio</h1>
   </div>
 
-  <!-- Barre de navigation -->
+  <!-- Navigation -->
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">Abderrahmane</div>
@@ -39,13 +40,13 @@
     </div>
   </nav>
 
-  <!-- En-tête -->
+  <!-- Header Section -->
   <header class="header">
     <div class="container intro">
-      <h1>Abderrahmane Lasri</h1>
-      <p>Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
-      <img src="photo.jpg" alt="Portrait de Abderrahmane Lasri" class="photo-profil" />
-      <div class="btn-group">
+      <h1 class="fade-in">Abderrahmane Lasri</h1>
+      <p class="fade-in delay-1">Ingénieur diplômé en Mécatronique | Étudiant en Management de Projets</p>
+      <img src="photo.jpg" alt="Portrait de Abderrahmane Lasri" class="photo-profil fade-in delay-2" />
+      <div class="btn-group fade-in delay-3">
         <a href="https://www.linkedin.com/in/abderrahmane-lasri-5951b9209/" target="_blank" class="btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
         <a href="CV.pdf" class="btn" download><i class="fa-solid fa-file-arrow-down"></i> Télécharger mon CV</a>
       </div>
@@ -54,7 +55,7 @@
 
   <div class="progress-bar" id="progress-bar"></div>
 
-  <!-- Contenu principal -->
+  <!-- Main Content -->
   <main>
     <section id="a-propos" class="section"><h2>À propos de moi</h2><p>...</p></section>
     <section id="parcours" class="section"><h2>Mon Parcours</h2><p>...</p></section>
