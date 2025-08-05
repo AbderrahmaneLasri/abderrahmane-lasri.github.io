@@ -1,13 +1,13 @@
-// Preloader Animation
+// Preloader
 window.addEventListener('load', () => {
   const preloader = document.getElementById('preloader');
   setTimeout(() => {
     preloader.style.opacity = '0';
     preloader.style.visibility = 'hidden';
-  }, 2000); // Disparait après 2 secondes
+  }, 2000);
 });
 
-// Scroll Progress Bar
+// Barre de progression
 window.addEventListener('scroll', () => {
   const progressBar = document.getElementById('progress-bar');
   const scrollTop = window.scrollY;
@@ -15,21 +15,16 @@ window.addEventListener('scroll', () => {
   const progress = (scrollTop / docHeight) * 100;
   progressBar.style.width = progress + '%';
 
-  // Scroll-to-top button visibility
   const scrollTopBtn = document.getElementById('scroll-top');
-  if (scrollTop > 300) {
-    scrollTopBtn.style.display = 'block';
-  } else {
-    scrollTopBtn.style.display = 'none';
-  }
+  scrollTopBtn.style.display = scrollTop > 300 ? 'block' : 'none';
 });
 
-// Scroll-to-top button action
+// Bouton retour en haut
 document.getElementById('scroll-top').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Mode Sombre / Clair Toggle
+// Mode sombre / clair
 const themeToggle = document.getElementById('toggle-theme');
 themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('dark-mode');
@@ -38,7 +33,7 @@ themeToggle.addEventListener('click', () => {
   icon.classList.toggle('fa-sun');
 });
 
-// ScrollReveal Animations
+// Animation des sections
 ScrollReveal().reveal('.section', {
   origin: 'bottom',
   distance: '50px',
@@ -47,7 +42,7 @@ ScrollReveal().reveal('.section', {
   reset: false
 });
 
-// Langue Switcher
+// Traduction dynamique
 let currentLang = 'fr';
 const translations = {
   en: {
@@ -70,33 +65,25 @@ const translations = {
   }
 };
 
-const langToggleBtn = document.createElement('button');
-langToggleBtn.id = 'lang-toggle';
-langToggleBtn.innerHTML = '<i class="fa-solid fa-globe"></i>';
-document.querySelector('.navbar').appendChild(langToggleBtn);
-
-langToggleBtn.addEventListener('click', () => {
+document.getElementById('toggle-lang').addEventListener('click', () => {
   currentLang = currentLang === 'fr' ? 'en' : 'fr';
   for (const id in translations[currentLang]) {
     const sectionTitle = document.querySelector(`#${id} h2`);
-    if (sectionTitle) {
-      const icon = sectionTitle.querySelector('i').outerHTML;
-      sectionTitle.innerHTML = `${translations[currentLang][id]} ${icon}`;
-    }
+    if (sectionTitle) sectionTitle.textContent = translations[currentLang][id];
   }
 });
 
-// Mobile Navbar Toggle (Optional enhancement)
+// Menu responsive
 const navToggleBtn = document.createElement('button');
 navToggleBtn.innerHTML = '<i class="fa-solid fa-bars"></i>';
 navToggleBtn.classList.add('nav-toggle-btn');
-document.querySelector('.navbar').appendChild(navToggleBtn);
+document.querySelector('.nav-container').appendChild(navToggleBtn);
 
 navToggleBtn.addEventListener('click', () => {
   document.querySelector('.nav-links').classList.toggle('active');
 });
 
-// Smooth Scroll for Navbar Links
+// Smooth scroll
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
