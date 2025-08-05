@@ -126,6 +126,7 @@ body.dark-mode .toggle-content {
   }
 }
 
+/* Message de bienvenue plein écran */
 #welcome-message {
   position: fixed;
   top: 0;
