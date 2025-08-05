@@ -125,3 +125,25 @@ body.dark-mode .toggle-content {
     padding: 10px;
   }
 }
+#welcome-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #4ca1af;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+#welcome-message.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
