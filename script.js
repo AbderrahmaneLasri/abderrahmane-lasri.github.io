@@ -1,40 +1,23 @@
-// === OUVERTURE / FERMETURE DES RUBRIQUES ===
 
-// Récupère toutes les sections avec la classe .section
-document.querySelectorAll('.section').forEach(section => {
-  const title = section.querySelector('h2');
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("h2");
 
-  // Événement au clic sur le titre de section
-  title.addEventListener('click', () => {
-    // Ferme les autres sections ouvertes (facultatif)
-    document.querySelectorAll('.section').forEach(s => {
-      if (s !== section) {
-        s.classList.remove('active');
-      }
+  sections.forEach((h2) => {
+    h2.addEventListener("click", function () {
+      const content = this.nextElementSibling;
+      content.classList.toggle("open");
+
+      const expanded = this.getAttribute("aria-expanded") === "true";
+      this.setAttribute("aria-expanded", !expanded);
     });
-
-    // Active ou désactive cette section
-    section.classList.toggle('active');
   });
-});
 
-// === MODE SOMBRE / MODE CLAIR ===
+  const toggleBtn = document.createElement("button");
+  toggleBtn.textContent = "🌙 Mode sombre / clair";
+  toggleBtn.className = "btn";
+  document.querySelector("header .container").appendChild(toggleBtn);
 
-const darkModeToggle = document.getElementById('darkModeToggle');
-
-// Vérifie si un mode est déjà enregistré dans le localStorage
-if (localStorage.getItem('darkMode') === 'enabled') {
-  document.body.classList.add('dark-mode');
-}
-
-// Gère le clic sur le bouton
-darkModeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-mode');
-
-  // Enregistre le choix dans le localStorage
-  if (document.body.classList.contains('dark-mode')) {
-    localStorage.setItem('darkMode', 'enabled');
-  } else {
-    localStorage.setItem('darkMode', 'disabled');
-  }
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+  });
 });
