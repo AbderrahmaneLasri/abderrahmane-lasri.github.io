@@ -1,4 +1,4 @@
-/* Fonts & Base */
+/* Fontes & base */
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -20,9 +20,10 @@ a {
 ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-/* Intro Animation */
+/* Preloader */
 #preloader {
   position: fixed;
   top: 0; left: 0;
@@ -48,7 +49,7 @@ ul {
   100% { transform: rotate(360deg); }
 }
 
-/* Navbar */
+/* Barre de navigation */
 .navbar {
   position: fixed;
   top: 0; left: 0;
@@ -91,7 +92,7 @@ ul {
   margin-left: 15px;
 }
 
-/* Header Section */
+/* En-tête */
 .header {
   padding-top: 100px;
   text-align: center;
@@ -135,28 +136,25 @@ ul {
   margin-bottom: 20px;
 }
 
-.section ul li {
-  margin-bottom: 10px;
-}
-
-/* Footer */
+/* Pied de page */
 footer {
   text-align: center;
   padding: 20px;
   background: #f0f0f0;
 }
 
-/* Progress Bar */
+/* Barre de progression */
 .progress-bar {
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   height: 4px;
   background: #0077b5;
   width: 0;
   z-index: 999;
 }
 
-/* Scroll Top Button */
+/* Bouton de retour en haut */
 #scroll-top {
   position: fixed;
   bottom: 20px;
@@ -172,7 +170,7 @@ footer {
   font-size: 1.2rem;
 }
 
-/* Mode Sombre */
+/* Mode sombre */
 body.dark-mode {
   background-color: #1e1e1e;
   color: #e0e0e0;
@@ -213,5 +211,13 @@ body.dark-mode footer {
 
   .nav-actions {
     display: flex;
+  }
+
+  .nav-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    margin-left: 10px;
+    cursor: pointer;
   }
 }
