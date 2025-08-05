@@ -1,26 +1,17 @@
-// Animation sections + dark mode
 document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("toggle-theme");
+  // Basculer le mode sombre
+  const themeToggleBtn = document.getElementById("toggle-theme");
 
-  // Active le mode sombre
-  toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
+  themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    themeToggleBtn.textContent = isDark ? "☀️ Mode clair" : "🌙 Mode sombre";
   });
 
-  // Animation "fade-in" sur scroll
+  // Apparition fluide des sections
   const fadeIns = document.querySelectorAll(".fade-in");
 
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animationDelay = "0.1s";
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1
+  fadeIns.forEach((el, i) => {
+    el.style.animationDelay = `${i * 0.2}s`;
   });
-
-  fadeIns.forEach(el => observer.observe(el));
 });
