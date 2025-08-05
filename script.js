@@ -1,4 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Affichage du message de bienvenue
+  const welcome = document.getElementById("welcome-message");
+
+  // Empêche le body d'apparaître trop tôt
+  document.body.style.opacity = 0;
+
+  setTimeout(() => {
+    welcome.classList.add("fade-out");
+  }, 3000); // Disparait après 3s
+
+  setTimeout(() => {
+    welcome.remove(); // Supprime le message
+    document.body.style.opacity = 1; // Affiche le site
+  }, 4000); // Après 4s total
+
+  // Comportement des sections
   const sections = document.querySelectorAll("h2");
 
   sections.forEach((title) => {
@@ -19,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Bouton retour en haut
   const scrollBtn = document.createElement("button");
   scrollBtn.textContent = "↑ Haut";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
@@ -48,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
   });
 
+  // Bouton mode sombre
   const darkModeBtn = document.createElement("button");
   darkModeBtn.textContent = "🌙 Mode Sombre";
   darkModeBtn.setAttribute("aria-label", "Activer/désactiver le mode sombre");
@@ -67,10 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.body.appendChild(darkModeBtn);
+
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
   });
 
+  // Style dynamique pour le mode sombre
   const style = document.createElement("style");
   style.textContent = `
     body.dark-mode {
@@ -87,10 +107,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   `;
   document.head.appendChild(style);
-
-  document.body.style.opacity = 0;
-  document.body.style.transition = "opacity 1s ease-in-out";
-  window.requestAnimationFrame(() => {
-    document.body.style.opacity = 1;
-  });
 });
