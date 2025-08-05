@@ -1,33 +1,26 @@
-// Attendre que le DOM soit entièrement chargé
+// Animation sections + dark mode
 document.addEventListener("DOMContentLoaded", () => {
-  const headers = document.querySelectorAll("section h2");
+  const toggleBtn = document.getElementById("toggle-theme");
 
-  headers.forEach((header) => {
-    const content = header.nextElementSibling;
+  // Active le mode sombre
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+  });
 
-    // Définir le style initial
-    content.style.display = "block"; // Affiché par défaut
+  // Animation "fade-in" sur scroll
+  const fadeIns = document.querySelectorAll(".fade-in");
 
-    // Ajouter le curseur pointeur
-    header.style.cursor = "pointer";
-
-    // Gestion du clic sur les titres
-    header.addEventListener("click", () => {
-      const isVisible = content.style.display === "block";
-      
-      // Animation douce avec opacity + height
-      if (isVisible) {
-        content.style.opacity = "0";
-        setTimeout(() => {
-          content.style.display = "none";
-        }, 200);
-      } else {
-        content.style.display = "block";
-        content.style.opacity = "0";
-        setTimeout(() => {
-          content.style.opacity = "1";
-        }, 10);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationDelay = "0.1s";
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
       }
     });
+  }, {
+    threshold: 0.1
   });
+
+  fadeIns.forEach(el => observer.observe(el));
 });
