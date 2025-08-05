@@ -2,7 +2,6 @@
 const themeButton = document.getElementById('toggle-theme');
 const body = document.body;
 
-// Charger le thème sauvegardé
 if (localStorage.getItem('theme') === 'dark') {
   body.classList.add('dark-mode');
   themeButton.textContent = '☀️ Mode clair';
@@ -52,10 +51,19 @@ fadeIns.forEach(section => {
   observer.observe(section);
 });
 
-// ✅ Écran d’intro animé
-window.addEventListener('load', () => {
-  const intro = document.getElementById('intro-screen');
-  setTimeout(() => {
-    intro.style.display = 'none';
-  }, 4000); // Laisse le temps à l’animation d’être visible
+// ✅ Animation du texte d’intro "Bienvenue dans mon portfolio"
+const introText = "Bienvenue dans mon portfolio !";
+const introElement = document.getElementById("intro-text");
+
+let i = 0;
+function typeEffect() {
+  if (i < introText.length) {
+    introElement.textContent += introText.charAt(i);
+    i++;
+    setTimeout(typeEffect, 60);
+  }
+}
+
+window.addEventListener("load", () => {
+  setTimeout(typeEffect, 500);
 });
