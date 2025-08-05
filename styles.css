@@ -112,16 +112,93 @@ body.dark-mode .btn {
   background-color: #444;
 }
 
+/* --- Barre de navigation sticky --- */
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 999;
+  text-align: center;
+}
+
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navbar li {
+  display: inline-block;
+  margin: 0 1rem;
+}
+
+.navbar a {
+  color: #3399a6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #22666e;
+}
+
+body.dark-mode .navbar {
+  background-color: #1e1e1e;
+}
+
+body.dark-mode .navbar a {
+  color: #66d9ef;
+}
+
+/* --- Bouton Retour Haut --- */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 1rem;
+  background-color: #3399a6;
+  color: white;
+  border: none;
+  padding: 0.6rem 0.9rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: none;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+#back-to-top:hover {
+  background-color: #22666e;
+}
+
 /* Fade-in animation */
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
-  animation: fadeInUp 1s ease forwards;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .navbar li {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .photo-profil {
+    width: 120px;
+    height: 120px;
+  }
+
+  #toggle-theme {
+    font-size: 0.8rem;
   }
 }
