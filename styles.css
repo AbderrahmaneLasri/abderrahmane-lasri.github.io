@@ -3,6 +3,8 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  background: #fff;
+  color: #222;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
@@ -34,23 +36,44 @@ header {
   text-decoration: none;
   font-weight: bold;
   border-radius: 30px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  outline: none;
 }
 
-.btn:hover {
+.btn:hover,
+.btn:focus {
   background-color: #eee;
+  color: #4ca1af;
+  box-shadow: 0 0 0 3px #c2e6ef;
 }
 
-h2 {
+h2.toggle-header {
   cursor: pointer;
   padding: 10px;
   background-color: #f1f1f1;
   border-left: 4px solid #4ca1af;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
-h2:hover {
+h2.toggle-header:hover,
+h2.toggle-header:focus {
   background-color: #e0e0e0;
+  outline: 2px solid #4ca1af;
+}
+
+.chevron {
+  margin-left: 10px;
+  font-size: 1rem;
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.open + .chevron,
+.toggle-header[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
 }
 
 .toggle-content {
@@ -79,7 +102,7 @@ body.dark-mode {
   color: #e0e0e0;
 }
 
-body.dark-mode h2 {
+body.dark-mode h2.toggle-header {
   background-color: #1e1e1e;
   color: #f0f0f0;
 }
@@ -87,6 +110,15 @@ body.dark-mode h2 {
 body.dark-mode .toggle-content {
   background-color: #1a1a1a;
   border-left-color: #4ca1af;
+}
+
+body.dark-mode .btn {
+  background-color: #444 !important;
+  color: #fff !important;
+}
+
+body.dark-mode a {
+  color: #60dfff;
 }
 
 /* Responsive Design - Mobile */
@@ -113,7 +145,7 @@ body.dark-mode .toggle-content {
     font-size: 1.6rem;
   }
 
-  h2 {
+  h2.toggle-header {
     font-size: 1.2rem;
   }
 
@@ -148,14 +180,4 @@ body.dark-mode .toggle-content {
 #welcome-message.fade-out {
   opacity: 0;
   pointer-events: none;
-}
-
-/* Au départ, cacher tout sauf le message */
-body > *:not(#welcome-message) {
-  display: none;
-}
-
-/* Quand prêt, afficher tout sauf le message */
-body.ready > *:not(#welcome-message) {
-  display: block;
 }
