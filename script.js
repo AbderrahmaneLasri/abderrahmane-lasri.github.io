@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Affichage du message de bienvenue
   const welcome = document.getElementById("welcome-message");
 
-  // Empêche le body d'apparaître trop tôt
-  document.body.style.opacity = 0;
+  // Affiche le contenu principal en ajoutant la classe 'ready' au body
+  document.body.classList.add("ready");
 
+  // Faire disparaître le message de bienvenue après 3 secondes
   setTimeout(() => {
     welcome.classList.add("fade-out");
-  }, 3000); // Disparait après 3s
+  }, 3000);
 
+  // Supprimer le message et laisser tout visible après 4 secondes
   setTimeout(() => {
-    welcome.remove(); // Supprime le message
-    document.body.style.opacity = 1; // Affiche le site
-  }, 4000); // Après 4s total
+    welcome.remove();
+  }, 4000);
 
-  // Comportement des sections
+  // Comportement des sections (accordion)
   const sections = document.querySelectorAll("h2");
 
   sections.forEach((title) => {
