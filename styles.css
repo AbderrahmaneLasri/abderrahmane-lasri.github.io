@@ -1,4 +1,4 @@
-/* Fontes & base */
+/* Fonts & Base Styles */
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -30,18 +30,27 @@ ul {
   width: 100%; height: 100%;
   background: #fff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  transition: opacity 1s ease, visibility 1s ease;
 }
 
 .loader {
   border: 8px solid #ddd;
-  border-top: 8px solid #555;
+  border-top: 8px solid #0077b5;
   border-radius: 50%;
   width: 60px;
   height: 60px;
   animation: spin 1.5s linear infinite;
+}
+
+.preloader-text {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: fadeInText 1.5s forwards 0.5s;
 }
 
 @keyframes spin {
@@ -49,7 +58,11 @@ ul {
   100% { transform: rotate(360deg); }
 }
 
-/* Barre de navigation */
+@keyframes fadeInText {
+  to { opacity: 1; }
+}
+
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0; left: 0;
@@ -92,9 +105,9 @@ ul {
   margin-left: 15px;
 }
 
-/* En-tête */
+/* Header */
 .header {
-  padding-top: 100px;
+  padding-top: 120px;
   text-align: center;
 }
 
@@ -104,6 +117,9 @@ ul {
   object-fit: cover;
   border-radius: 50%;
   margin-top: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s forwards;
 }
 
 .btn-group {
@@ -117,11 +133,12 @@ ul {
   background: #0077b5;
   color: white;
   border-radius: 25px;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s;
 }
 
 .btn:hover {
   background: #005e93;
+  transform: translateY(-2px);
 }
 
 /* Sections */
@@ -129,21 +146,18 @@ ul {
   padding: 60px 5%;
   max-width: 1000px;
   margin: auto;
+  opacity: 0;
+  transform: translateY(50px);
 }
 
-.section h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-/* Pied de page */
+/* Footer */
 footer {
   text-align: center;
   padding: 20px;
   background: #f0f0f0;
 }
 
-/* Barre de progression */
+/* Progress Bar */
 .progress-bar {
   position: fixed;
   top: 0;
@@ -154,7 +168,7 @@ footer {
   z-index: 999;
 }
 
-/* Bouton de retour en haut */
+/* Scroll to Top Button */
 #scroll-top {
   position: fixed;
   bottom: 20px;
@@ -170,7 +184,7 @@ footer {
   font-size: 1.2rem;
 }
 
-/* Mode sombre */
+/* Dark Mode */
 body.dark-mode {
   background-color: #1e1e1e;
   color: #e0e0e0;
@@ -192,6 +206,24 @@ body.dark-mode footer {
   background: #111;
 }
 
+/* Animations */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.fade-in.delay-1 { animation-delay: 0.5s; }
+.fade-in.delay-2 { animation-delay: 1s; }
+.fade-in.delay-3 { animation-delay: 1.5s; }
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links {
@@ -206,10 +238,6 @@ body.dark-mode footer {
   }
 
   .nav-links.active {
-    display: flex;
-  }
-
-  .nav-actions {
     display: flex;
   }
 
