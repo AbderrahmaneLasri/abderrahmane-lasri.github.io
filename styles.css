@@ -105,6 +105,11 @@ ul {
   margin-left: 15px;
 }
 
+/* Toggle Menu (Mobile) */
+.nav-toggle-btn {
+  display: none;
+}
+
 /* Header */
 .header {
   padding-top: 120px;
@@ -242,10 +247,16 @@ body.dark-mode footer {
   }
 
   .nav-toggle-btn {
+    display: inline-block;
     background: none;
     border: none;
     font-size: 1.5rem;
     margin-left: 10px;
     cursor: pointer;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
   }
 }
