@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "9999",
     transition: "opacity 0.3s ease"
   });
-
   document.body.appendChild(scrollBtn);
 
   scrollBtn.addEventListener("click", () => {
@@ -80,53 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.3s ease"
   });
+  document.body.appendChild(darkModeBtn);
 
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "scale(1.1)";
   });
-
   darkModeBtn.addEventListener("mouseleave", () => {
     darkModeBtn.style.transform = "scale(1)";
   });
 
-  document.body.appendChild(darkModeBtn);
-
-  // Activation/désactivation du mode sombre
-  darkModeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    // Option : cacher les particules en mode sombre
-    if(document.body.classList.contains("dark-mode")) {
-      canvas.style.opacity = "0";
-    } else {
-      canvas.style.opacity = "1";
-    }
-  });
-
-  // Style JS dynamique (complément CSS pour + de détails)
-  const dynamicStyle = document.createElement("style");
-  dynamicStyle.textContent = `
-    body.dark-mode {
-      background-color: #121212 !important;
-      color: #e0e0e0 !important;
-    }
-    body.dark-mode h2, body.dark-mode p, body.dark-mode li {
-      color: #e0e0e0 !important;
-    }
-    body.dark-mode .btn {
-      background-color: #333 !important;
-      color: #fff !important;
-    }
-    body.dark-mode header {
-      background-color: #1c1c1c !important;
-    }
-    body.dark-mode footer {
-      background-color: #1a1a1a !important;
-    }
-  `;
-  document.head.appendChild(dynamicStyle);
-
-  // ---------- Animation particules lumineuses en fond ----------
-
+  // Canvas pour particules lumineuses
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -191,4 +153,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initParticles();
   animateParticles();
+
+  // Activation/désactivation du mode sombre
+  darkModeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    if (document.body.classList.contains("dark-mode")) {
+      canvas.style.opacity = "0";
+    } else {
+      canvas.style.opacity = "1";
+    }
+  });
+
+  // Style dynamique pour mode sombre (complément CSS)
+  const dynamicStyle = document.createElement("style");
+  dynamicStyle.textContent = `
+    body.dark-mode {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode h2, body.dark-mode p, body.dark-mode li {
+      color: #e0e0e0 !important;
+    }
+    body.dark-mode .btn {
+      background-color: #333 !important;
+      color: #fff !important;
+    }
+    body.dark-mode header {
+      background-color: #1c1c1c !important;
+    }
+    body.dark-mode footer {
+      background-color: #1a1a1a !important;
+    }
+  `;
+  document.head.appendChild(dynamicStyle);
 });
