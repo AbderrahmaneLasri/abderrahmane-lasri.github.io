@@ -1,30 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Message de bienvenue ---
   const welcome = document.getElementById("welcome-message");
 
-  // Affiche le contenu principal en ajoutant une classe "ready"
+  // Affiche le contenu principal
   document.body.classList.add("ready");
 
-  // Disparition progressive du message de bienvenue après 3 secondes
+  // Disparition progressive du message de bienvenue
   setTimeout(() => welcome.classList.add("fade-out"), 3000);
-  // Suppression totale du message après 4 secondes
   setTimeout(() => welcome.remove(), 4000);
 
-  // --- Accordéon des sections ---
-  // Pour chaque <h2>, on permet d'ouvrir/fermer son contenu adjacent
+  // Accordéon des sections (h2 + contenu)
   document.querySelectorAll("h2").forEach((title) => {
     const content = title.nextElementSibling;
 
     const toggle = () => {
-      // Gère l'état "aria-expanded" pour accessibilité
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
     };
 
-    // Toggle au clic
     title.addEventListener("click", toggle);
-    // Toggle au clavier (Entrée ou Espace)
     title.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -33,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- Bouton "Retour en haut" ---
+  // Bouton "Retour en haut"
   const scrollBtn = document.createElement("button");
   scrollBtn.textContent = "↑ Haut";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
@@ -55,18 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: "opacity 0.3s ease"
   });
   document.body.appendChild(scrollBtn);
-
-  // Scroll doux vers le haut au clic
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-
-  // Affiche le bouton seulement si on a scrollé de plus de 300px
   window.addEventListener("scroll", () => {
     scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
   });
 
-  // --- Bouton de bascule du mode sombre ---
+  // Bouton de bascule du mode sombre
   const darkModeBtn = document.createElement("button");
   darkModeBtn.textContent = "🌙";
   darkModeBtn.setAttribute("aria-label", "Basculer le mode sombre");
@@ -87,8 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.3s ease"
   });
-
-  // Animation légère au survol
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "scale(1.1)";
   });
@@ -96,27 +84,24 @@ document.addEventListener("DOMContentLoaded", () => {
     darkModeBtn.style.transform = "scale(1)";
   });
   document.body.appendChild(darkModeBtn);
-
-  // Activation/désactivation du mode sombre et gestion des particules
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-      canvas.style.opacity = "0"; // Cache les particules en mode sombre
+    // Option : cacher les particules en mode sombre
+    if(document.body.classList.contains("dark-mode")) {
+      canvas.style.opacity = "0";
     } else {
-      canvas.style.opacity = "1"; // Affiche les particules en mode clair
+      canvas.style.opacity = "1";
     }
   });
 
-  // --- Styles dynamiques complémentaires pour le mode sombre ---
+  // Style JS dynamique (complément CSS pour + de détails)
   const dynamicStyle = document.createElement("style");
   dynamicStyle.textContent = `
     body.dark-mode {
       background-color: #121212 !important;
       color: #e0e0e0 !important;
     }
-    body.dark-mode h2, 
-    body.dark-mode p, 
-    body.dark-mode li {
+    body.dark-mode h2, body.dark-mode p, body.dark-mode li {
       color: #e0e0e0 !important;
     }
     body.dark-mode .btn {
@@ -132,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
   `;
   document.head.appendChild(dynamicStyle);
 
-  // --- Animation particules lumineuses en fond ---
+  // ---------- Animation particules lumineuses en fond ----------
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -141,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     left: "0",
     width: "100vw",
     height: "100vh",
-    pointerEvents: "none", // Ne pas gêner les clics
+    pointerEvents: "none",
     zIndex: "-1",
     transition: "opacity 0.5s ease"
   });
@@ -150,7 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   let particlesArray;
 
-  // Initialise les particules avec position, vitesse, taille, opacité aléatoires
   function initParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -170,13 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Animation continue : dessine et déplace les particules
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particlesArray.forEach(p => {
       ctx.beginPath();
-      // Dégradé radial lumineux
       const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 5);
       gradient.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
       gradient.addColorStop(1, "rgba(255,255,255,0)");
@@ -184,11 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
-      // Déplacement selon vitesse
       p.x += p.speedX;
       p.y += p.speedY;
 
-      // Rebond sur les bords du canvas
       if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
       if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
     });
@@ -196,7 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(animateParticles);
   }
 
-  // Réinitialisation des particules à la redimension du viewport
   window.addEventListener("resize", () => {
     initParticles();
   });
@@ -204,14 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   animateParticles();
 
-  // --- Zoom progressif et pulsant sur la photo de profil ---
+  // --------- Zoom progressif et pulsant sur la photo profil ----------
   const photo = document.querySelector('.intro img.photo-profil');
   if (photo) {
     let scale = 1;
     let growing = true;
     let animationFrameId = null;
 
-    // Animation qui augmente/reduit la taille pour effet pulsant
     function animateZoom() {
       if (growing) {
         scale += 0.005;
@@ -224,14 +202,12 @@ document.addEventListener("DOMContentLoaded", () => {
       animationFrameId = requestAnimationFrame(animateZoom);
     }
 
-    // Démarrer l’animation au survol
     photo.addEventListener('mouseenter', () => {
       if (!animationFrameId) {
         animateZoom();
       }
     });
 
-    // Arrêter l’animation au départ du survol et revenir à l’état initial
     photo.addEventListener('mouseleave', () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
