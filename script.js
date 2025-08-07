@@ -48,13 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "9999",
     transition: "opacity 0.3s ease"
   });
-
   document.body.appendChild(scrollBtn);
-
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-
   window.addEventListener("scroll", () => {
     scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
   });
@@ -80,18 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.3s ease"
   });
-
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "scale(1.1)";
   });
-
   darkModeBtn.addEventListener("mouseleave", () => {
     darkModeBtn.style.transform = "scale(1)";
   });
-
   document.body.appendChild(darkModeBtn);
-
-  // Activation/désactivation du mode sombre
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     // Option : cacher les particules en mode sombre
@@ -126,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.head.appendChild(dynamicStyle);
 
   // ---------- Animation particules lumineuses en fond ----------
-
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -191,4 +182,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initParticles();
   animateParticles();
+
+  // --------- Zoom progressif et pulsant sur la photo profil ----------
+  const photo = document.querySelector('.intro img.photo-profil');
+  if (photo) {
+    let scale = 1;
+    let growing = true;
+    let animationFrameId = null;
+
+    function animateZoom() {
+      if (growing) {
+        scale += 0.005;
+        if (scale >= 1.1) growing = false;
+      } else {
+        scale -= 0.005;
+        if (scale <= 1) growing = true;
+      }
+      photo.style.transform = `scale(${scale.toFixed(3)})`;
+      animationFrameId = requestAnimationFrame(animateZoom);
+    }
+
+    photo.addEventListener('mouseenter', () => {
+      if (!animationFrameId) {
+        animateZoom();
+      }
+    });
+
+    photo.addEventListener('mouseleave', () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        scale = 1;
+        photo.style.transform = 'scale(1)';
+      }
+    });
+  }
 });
