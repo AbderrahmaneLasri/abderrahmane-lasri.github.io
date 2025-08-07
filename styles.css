@@ -1,17 +1,38 @@
+/* ---------- FOND D'ÉCRAN ÉLÉGANT ---------- */
 body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  background: linear-gradient(135deg, #f9f7f1, #eae7de); /* Dégradé doux */
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* texture papier */
+  background-repeat: repeat;
+  background-size: 400px 400px;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 
+/* Motif géométrique discret façon "planche" */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(#aaa 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.04;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ---------- CONTAINERS ---------- */
 .container {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* ---------- HEADER ---------- */
 header {
   background: #4ca1af;
   color: white;
@@ -25,6 +46,7 @@ header {
   margin-top: 20px;
 }
 
+/* ---------- BOUTONS ---------- */
 .btn {
   display: inline-block;
   margin: 10px;
@@ -41,6 +63,7 @@ header {
   background-color: #eee;
 }
 
+/* ---------- TITRES ---------- */
 h2 {
   cursor: pointer;
   padding: 10px;
@@ -53,19 +76,21 @@ h2:hover {
   background-color: #e0e0e0;
 }
 
+/* ---------- CONTENU DES SECTIONS ---------- */
 .toggle-content {
   display: none;
   padding: 10px 15px;
   border-left: 4px solid #4ca1af;
   margin-bottom: 20px;
   background-color: #fafafa;
-  transition: all 0.4s ease;
+  transition: max-height 0.4s ease, padding 0.4s ease;
 }
 
 .toggle-content.open {
   display: block;
 }
 
+/* ---------- FOOTER ---------- */
 footer {
   text-align: center;
   padding: 20px;
@@ -73,10 +98,11 @@ footer {
   font-size: 0.9em;
 }
 
-/* Mode sombre */
+/* ---------- MODE SOMBRE ---------- */
 body.dark-mode {
   background-color: #121212;
   color: #e0e0e0;
+  background-image: none; /* Retire texture en sombre */
 }
 
 body.dark-mode h2 {
@@ -89,7 +115,12 @@ body.dark-mode .toggle-content {
   border-left-color: #4ca1af;
 }
 
-/* Responsive Design - Mobile */
+body.dark-mode::before {
+  background-image: radial-gradient(#555 1px, transparent 1px);
+  opacity: 0.06;
+}
+
+/* ---------- RESPONSIVE ---------- */
 @media screen and (max-width: 600px) {
   header {
     padding: 20px 10px;
@@ -126,7 +157,7 @@ body.dark-mode .toggle-content {
   }
 }
 
-/* Message de bienvenue plein écran */
+/* ---------- MESSAGE DE BIENVENUE ---------- */
 #welcome-message {
   position: fixed;
   top: 0;
@@ -150,12 +181,12 @@ body.dark-mode .toggle-content {
   pointer-events: none;
 }
 
-/* Au départ, cacher tout sauf le message */
+/* Masquer tout sauf le message de bienvenue */
 body > *:not(#welcome-message) {
   display: none;
 }
 
-/* Quand prêt, afficher tout sauf le message */
+/* Afficher le contenu après l’intro */
 body.ready > *:not(#welcome-message) {
   display: block;
 }
