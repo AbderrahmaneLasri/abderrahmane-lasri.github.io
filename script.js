@@ -94,6 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Activation/désactivation du mode sombre
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
+    // Option : cacher les particules en mode sombre
+    if(document.body.classList.contains("dark-mode")) {
+      canvas.style.opacity = "0";
+    } else {
+      canvas.style.opacity = "1";
+    }
   });
 
   // Style JS dynamique (complément CSS pour + de détails)
@@ -118,4 +124,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   `;
   document.head.appendChild(dynamicStyle);
+
+  // ---------- Animation particules lumineuses en fond ----------
+
+  const canvas = document.createElement("canvas");
+  canvas.id = "particles-canvas";
+  Object.assign(canvas.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: "100vh",
+    pointerEvents: "none",
+    zIndex: "-1",
+    transition: "opacity 0.5s ease"
+  });
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  let particlesArray;
+
+  function initParticles() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    particlesArray = [];
+
+    const numParticles = Math.floor(window.innerWidth / 20);
+
+    for (let i = 0; i < numParticles; i++) {
+      particlesArray.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1,
+        speedX: (Math.random() - 0.5) * 0.2,
+        speedY: (Math.random() - 0.5) * 0.2,
+        opacity: Math.random() * 0.5 + 0.2,
+      });
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particlesArray.forEach(p => {
+      ctx.beginPath();
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 5);
+      gradient.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
+      gradient.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = gradient;
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+
+      p.x += p.speedX;
+      p.y += p.speedY;
+
+      if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
+      if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
+    });
+
+    requestAnimationFrame(animateParticles);
+  }
+
+  window.addEventListener("resize", () => {
+    initParticles();
+  });
+
+  initParticles();
+  animateParticles();
 });
