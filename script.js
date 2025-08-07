@@ -1,23 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   const welcome = document.getElementById("welcome-message");
 
-  // Affiche le contenu principal en ajoutant la classe 'ready' au body
+  // Affiche le contenu principal
   document.body.classList.add("ready");
 
-  // Faire disparaître le message de bienvenue après 3 secondes
-  setTimeout(() => {
-    welcome.classList.add("fade-out");
-  }, 3000);
+  // Disparition progressive du message de bienvenue
+  setTimeout(() => welcome.classList.add("fade-out"), 3000);
+  setTimeout(() => welcome.remove(), 4000);
 
-  // Supprimer le message et laisser tout visible après 4 secondes
-  setTimeout(() => {
-    welcome.remove();
-  }, 4000);
-
-  // Comportement des sections (accordion)
-  const sections = document.querySelectorAll("h2");
-
-  sections.forEach((title) => {
+  // Accordéon des sections (h2 + contenu)
+  document.querySelectorAll("h2").forEach((title) => {
     const content = title.nextElementSibling;
 
     const toggle = () => {
@@ -35,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Bouton retour en haut
+  // Bouton "Retour en haut"
   const scrollBtn = document.createElement("button");
   scrollBtn.textContent = "↑ Haut";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
@@ -43,16 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
     position: "fixed",
     bottom: "30px",
     right: "30px",
-    padding: "0.7rem 1rem",
+    padding: "0.7rem 1.2rem",
     borderRadius: "50px",
     border: "none",
     backgroundColor: "#4ca1af",
     color: "#fff",
     fontWeight: "bold",
     cursor: "pointer",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+    fontSize: "1rem",
+    boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
     display: "none",
-    zIndex: "999"
+    zIndex: "9999",
+    transition: "opacity 0.3s ease"
   });
 
   document.body.appendChild(scrollBtn);
@@ -62,49 +56,66 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("scroll", () => {
-    scrollBtn.style.display = window.scrollY > 400 ? "block" : "none";
+    scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
   });
 
-  // Bouton mode sombre
+  // Bouton de bascule du mode sombre
   const darkModeBtn = document.createElement("button");
-  darkModeBtn.textContent = "🌙 Mode Sombre";
-  darkModeBtn.setAttribute("aria-label", "Activer/désactiver le mode sombre");
+  darkModeBtn.textContent = "🌙";
+  darkModeBtn.setAttribute("aria-label", "Basculer le mode sombre");
   Object.assign(darkModeBtn.style, {
     position: "fixed",
     top: "30px",
     right: "30px",
-    padding: "0.5rem 1rem",
-    borderRadius: "50px",
+    width: "48px",
+    height: "48px",
+    borderRadius: "50%",
     border: "none",
     backgroundColor: "#222",
     color: "#fff",
+    fontSize: "1.2rem",
     fontWeight: "bold",
     cursor: "pointer",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-    zIndex: "1000"
+    boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
+    zIndex: "10000",
+    transition: "transform 0.3s ease"
+  });
+
+  darkModeBtn.addEventListener("mouseenter", () => {
+    darkModeBtn.style.transform = "scale(1.1)";
+  });
+
+  darkModeBtn.addEventListener("mouseleave", () => {
+    darkModeBtn.style.transform = "scale(1)";
   });
 
   document.body.appendChild(darkModeBtn);
 
+  // Activation/désactivation du mode sombre
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
   });
 
-  // Style dynamique pour le mode sombre
-  const style = document.createElement("style");
-  style.textContent = `
+  // Style JS dynamique (complément CSS pour + de détails)
+  const dynamicStyle = document.createElement("style");
+  dynamicStyle.textContent = `
     body.dark-mode {
-      background-color: #121212;
-      color: #e0e0e0;
-      transition: background-color 0.4s, color 0.4s;
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
     }
     body.dark-mode h2, body.dark-mode p, body.dark-mode li {
-      color: #e0e0e0;
+      color: #e0e0e0 !important;
     }
     body.dark-mode .btn {
-      background-color: #444 !important;
+      background-color: #333 !important;
       color: #fff !important;
     }
+    body.dark-mode header {
+      background-color: #1c1c1c !important;
+    }
+    body.dark-mode footer {
+      background-color: #1a1a1a !important;
+    }
   `;
-  document.head.appendChild(style);
+  document.head.appendChild(dynamicStyle);
 });
