@@ -1,14 +1,26 @@
-/* ---------- FOND D'ÉCRAN ÉLÉGANT ---------- */
+/* ---------- FOND D'ÉCRAN ÉLÉGANT & ANIMÉ ---------- */
 body {
   font-family: 'Open Sans', sans-serif;
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f9f7f1, #eae7de); /* Dégradé doux */
-  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png'); /* texture papier */
+  background: linear-gradient(135deg, #f9f7f1, #eae7de);
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
   background-repeat: repeat;
   background-size: 400px 400px;
   transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
+  overflow-x: hidden;
+  z-index: 0;
+  /* Animation dégradé */
+  background-size: 600% 600%;
+  animation: backgroundGradient 30s ease infinite;
+}
+
+@keyframes backgroundGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Motif géométrique discret façon "planche" */
@@ -23,6 +35,16 @@ body::before {
   opacity: 0.04;
   z-index: -1;
   pointer-events: none;
+}
+
+/* Canvas pour particules */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* ---------- CONTAINERS ---------- */
@@ -102,7 +124,8 @@ footer {
 body.dark-mode {
   background-color: #121212;
   color: #e0e0e0;
-  background-image: none; /* Retire texture en sombre */
+  background-image: none;
+  animation: none;
 }
 
 body.dark-mode h2 {
