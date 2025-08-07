@@ -7,13 +7,11 @@ body {
   background: linear-gradient(135deg, #f9f7f1, #eae7de);
   background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
   background-repeat: repeat;
-  background-size: 400px 400px;
+  background-size: 600% 600%;
   transition: background-color 0.4s ease, color 0.4s ease;
   position: relative;
   overflow-x: hidden;
   z-index: 0;
-  /* Animation dégradé */
-  background-size: 600% 600%;
   animation: backgroundGradient 30s ease infinite;
 }
 
@@ -33,8 +31,30 @@ body::before {
   background-image: radial-gradient(#aaa 1px, transparent 1px);
   background-size: 60px 60px;
   opacity: 0.04;
-  z-index: -1;
+  z-index: -2;
   pointer-events: none;
+}
+
+/* Motif mobile flottant Hermès-like */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(120deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(240deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: -3;
+  pointer-events: none;
+  animation: gridMove 60s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-30px, -30px); }
+  100% { transform: translate(0, 0); }
 }
 
 /* Canvas pour particules */
@@ -44,7 +64,7 @@ body::before {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: -1;
+  z-index: -4;
 }
 
 /* ---------- CONTAINERS ---------- */
@@ -52,6 +72,9 @@ body::before {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
 }
 
 /* ---------- HEADER ---------- */
@@ -60,17 +83,23 @@ header {
   color: white;
   text-align: center;
   padding: 40px 20px;
+  backdrop-filter: blur(6px);
+  border-radius: 0 0 20px 20px;
 }
 
+/* ---------- PHOTO DE PROFIL ---------- */
 .intro img.photo-profil {
   max-width: 150px;
   border-radius: 50%;
   margin-top: 20px;
-
-  /* Ajout pour zoom progressif */
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   transform-origin: center center;
   cursor: pointer;
+  box-shadow: 0 0 15px rgba(76, 161, 175, 0.3);
+}
+.intro img.photo-profil:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(76, 161, 175, 0.6);
 }
 
 /* ---------- BOUTONS ---------- */
@@ -83,11 +112,12 @@ header {
   text-decoration: none;
   font-weight: bold;
   border-radius: 30px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .btn:hover {
   background-color: #eee;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* ---------- TITRES ---------- */
@@ -97,24 +127,28 @@ h2 {
   background-color: #f1f1f1;
   border-left: 4px solid #4ca1af;
   transition: background-color 0.3s;
+  border-radius: 4px;
 }
-
 h2:hover {
   background-color: #e0e0e0;
 }
 
 /* ---------- CONTENU DES SECTIONS ---------- */
 .toggle-content {
-  display: none;
-  padding: 10px 15px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 15px;
   border-left: 4px solid #4ca1af;
   margin-bottom: 20px;
   background-color: #fafafa;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  transition: max-height 0.6s ease, opacity 0.6s ease, padding 0.4s ease;
+  border-radius: 0 0 10px 10px;
 }
-
 .toggle-content.open {
-  display: block;
+  max-height: 1000px;
+  opacity: 1;
+  padding: 10px 15px;
 }
 
 /* ---------- FOOTER ---------- */
@@ -123,6 +157,7 @@ footer {
   padding: 20px;
   background-color: #f9f9f9;
   font-size: 0.9em;
+  border-radius: 20px 20px 0 0;
 }
 
 /* ---------- MODE SOMBRE ---------- */
@@ -132,20 +167,23 @@ body.dark-mode {
   background-image: none;
   animation: none;
 }
-
 body.dark-mode h2 {
   background-color: #1e1e1e;
   color: #f0f0f0;
 }
-
 body.dark-mode .toggle-content {
   background-color: #1a1a1a;
   border-left-color: #4ca1af;
 }
-
 body.dark-mode::before {
   background-image: radial-gradient(#555 1px, transparent 1px);
   opacity: 0.06;
+}
+body.dark-mode::after {
+  background-image: 
+    linear-gradient(120deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(240deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  opacity: 0.1;
 }
 
 /* ---------- RESPONSIVE ---------- */
@@ -153,13 +191,11 @@ body.dark-mode::before {
   header {
     padding: 20px 10px;
   }
-
   .intro img.photo-profil {
     max-width: 100px;
     display: block;
     margin: 20px auto;
   }
-
   .btn {
     display: block;
     width: 80%;
@@ -167,19 +203,15 @@ body.dark-mode::before {
     font-size: 1rem;
     text-align: center;
   }
-
   h1 {
     font-size: 1.6rem;
   }
-
   h2 {
     font-size: 1.2rem;
   }
-
   p, li {
     font-size: 0.95rem;
   }
-
   .container {
     padding: 10px;
   }
@@ -203,18 +235,13 @@ body.dark-mode::before {
   opacity: 1;
   transition: opacity 1s ease;
 }
-
 #welcome-message.fade-out {
   opacity: 0;
   pointer-events: none;
 }
-
-/* Masquer tout sauf le message de bienvenue */
 body > *:not(#welcome-message) {
   display: none;
 }
-
-/* Afficher le contenu après l’intro */
 body.ready > *:not(#welcome-message) {
   display: block;
 }
