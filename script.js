@@ -98,59 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(darkModeBtn);
 
-  /* ------------------ FLOATING SYMBOLS DARK MODE ------------------ */
-  let floatingElements = [];
-
-  function createFloatingSymbol(symbol) {
-    const el = document.createElement("div");
-    el.textContent = symbol;
-    el.style.position = "fixed";
-    el.style.fontSize = `${Math.random() * 20 + 20}px`;
-    el.style.opacity = Math.random() * 0.6 + 0.4;
-    el.style.left = `${Math.random() * 100}vw`;
-    el.style.top = `${Math.random() * 100}vh`;
-    el.style.pointerEvents = "none";
-    el.style.zIndex = "0";
-    el.style.animation = `float ${10 + Math.random() * 10}s ease-in-out infinite`;
-    document.body.appendChild(el);
-    return el;
-  }
-
-  function enableFloatingSymbols() {
-    const symbols = ["🌙", "⭐", "✨", "☁️"];
-    floatingElements = Array.from({ length: 12 }, () => {
-      const s = symbols[Math.floor(Math.random() * symbols.length)];
-      return createFloatingSymbol(s);
-    });
-  }
-
-  function disableFloatingSymbols() {
-    floatingElements.forEach(el => el.remove());
-    floatingElements = [];
-  }
-
-  // Ajout des keyframes CSS dynamiquement
-  const style = document.createElement("style");
-  style.textContent = `
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0) rotate(0deg); }
-      50% { transform: translateY(-30px) translateX(20px) rotate(15deg); }
-      100% { transform: translateY(0) translateX(0) rotate(0deg); }
-    }
-  `;
-  document.head.appendChild(style);
-
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
 
     canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
-
-    if (document.body.classList.contains("dark-mode")) {
-      enableFloatingSymbols();
-    } else {
-      disableFloatingSymbols();
-    }
   });
 
   /* ------------------ PARTICULES ------------------ */
