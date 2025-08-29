@@ -66,6 +66,7 @@ header {
   max-width: 150px;
   border-radius: 50%;
   margin-top: 20px;
+  transition: transform 0.4s ease;
 }
 
 /* ---------- BOUTONS ---------- */
@@ -78,11 +79,12 @@ header {
   text-decoration: none;
   font-weight: bold;
   border-radius: 30px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .btn:hover {
   background-color: #eee;
+  transform: translateY(-2px);
 }
 
 /* ---------- TITRES ---------- */
@@ -91,7 +93,7 @@ h2 {
   padding: 10px;
   background-color: #f1f1f1;
   border-left: 4px solid #4ca1af;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, text-shadow 0.6s ease, color 0.6s ease;
 }
 
 h2:hover {
@@ -126,11 +128,13 @@ body.dark-mode {
   color: #e0e0e0;
   background-image: none;
   animation: none;
+  transition: background-color 0.6s ease, color 0.6s ease;
 }
 
 body.dark-mode h2 {
   background-color: #1e1e1e;
   color: #f0f0f0;
+  text-shadow: 0 0 10px rgba(76,161,175,0.6), 0 0 20px rgba(76,161,175,0.4);
 }
 
 body.dark-mode .toggle-content {
@@ -141,6 +145,28 @@ body.dark-mode .toggle-content {
 body.dark-mode::before {
   background-image: radial-gradient(#555 1px, transparent 1px);
   opacity: 0.06;
+}
+
+/* ---------- ÉTOILES SCINTILLANTES EN DARK MODE ---------- */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ---------- BOUTON DARK MODE ---------- */
+#dark-mode-btn {
+  transition: transform 0.6s ease;
+}
+#dark-mode-btn.rotate {
+  transform: rotate(360deg);
 }
 
 /* ---------- RESPONSIVE ---------- */
