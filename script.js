@@ -98,13 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(darkModeBtn);
 
-  darkModeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-
-    canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
-  });
-
   /* ------------------ PARTICULES ------------------ */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
@@ -180,6 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initParticles();
   animateParticles();
+
+  // Gestion du Dark Mode (après ajout du canvas)
+  darkModeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+    canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
+  });
 
   /* ------------------ PHOTO PROFIL PULSE ------------------ */
   const photo = document.querySelector('.intro img.photo-profil');
