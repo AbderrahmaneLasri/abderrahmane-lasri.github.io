@@ -98,10 +98,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(darkModeBtn);
 
-  /* ------------------ PARTICULES ------------------ */
-  const canvas = document.createElement("canvas");
-  canvas.id = "particles-canvas";
-  Object.assign(canvas.style, {
+  /* ------------------ PARTICULES 2D ------------------ */
+  const particlesCanvas = document.createElement("canvas");
+  particlesCanvas.id = "particles-canvas";
+  Object.assign(particlesCanvas.style, {
     position: "fixed",
     top: "0",
     left: "0",
@@ -109,24 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
     height: "100vh",
     pointerEvents: "none",
     zIndex: "-1",
+    opacity: "0",
     transition: "opacity 0.5s ease"
   });
-  document.body.appendChild(canvas);
+  document.body.appendChild(particlesCanvas);
 
-  const ctx = canvas.getContext("2d");
+  const ctx = particlesCanvas.getContext("2d");
   let particlesArray = [];
   let mouse = { x: null, y: null };
 
   function initParticles() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    particlesCanvas.width = window.innerWidth;
+    particlesCanvas.height = window.innerHeight;
     particlesArray = [];
-
     const numParticles = Math.floor(window.innerWidth / 20);
     for (let i = 0; i < numParticles; i++) {
       particlesArray.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * particlesCanvas.width,
+        y: Math.random() * particlesCanvas.height,
         size: Math.random() * 3 + 1,
         speedX: (Math.random() - 0.5) * 0.3,
         speedY: (Math.random() - 0.5) * 0.3,
@@ -136,8 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
     particlesArray.forEach(p => {
       ctx.beginPath();
       const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
@@ -147,19 +146,16 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
-      // mouvement
       p.x += p.speedX;
       p.y += p.speedY;
 
-      // interaction avec la souris
       if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
         p.x += (p.x - mouse.x) * 0.02;
         p.y += (p.y - mouse.y) * 0.02;
       }
 
-      // rebonds
-      if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
-      if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
+      if (p.x < 0 || p.x > particlesCanvas.width) p.speedX = -p.speedX;
+      if (p.y < 0 || p.y > particlesCanvas.height) p.speedY = -p.speedY;
     });
 
     requestAnimationFrame(animateParticles);
@@ -174,11 +170,44 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   animateParticles();
 
-  // Gestion du Dark Mode (après ajout du canvas)
+  /* ------------------ GLOBE 3D (Three.js) ------------------ */
+  const globeCanvas = document.createElement("canvas");
+  globeCanvas.id = "globe-canvas";
+  document.body.appendChild(globeCanvas);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ canvas: globeCanvas, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const geometry = new THREE.SphereGeometry(1, 32, 32);
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+  const sphere = new THREE.Mesh(geometry, material);
+  scene.add(sphere);
+  camera.position.z = 3;
+
+  function animateGlobe() {
+    requestAnimationFrame(animateGlobe);
+    if (document.body.classList.contains("dark-mode")) {
+      sphere.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+  }
+  animateGlobe();
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    initParticles();
+  });
+
+  /* ------------------ GESTION DARK MODE ------------------ */
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-    canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
+    const isDark = document.body.classList.contains("dark-mode");
+    darkModeBtn.textContent = isDark ? "☀️" : "🌙";
+    particlesCanvas.style.opacity = isDark ? "1" : "0";
   });
 
   /* ------------------ PHOTO PROFIL PULSE ------------------ */
