@@ -37,7 +37,7 @@ body::before {
   pointer-events: none;
 }
 
-/* Canvas pour particules */
+/* Canvas pour particules 2D */
 #particles-canvas {
   position: fixed;
   top: 0; left: 0;
@@ -45,6 +45,19 @@ body::before {
   height: 100vh;
   pointer-events: none;
   z-index: -1;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* Canvas pour globe 3D */
+#globe-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -2;
+  display: none; /* caché en mode clair */
 }
 
 /* ---------- CONTAINERS ---------- */
@@ -138,6 +151,15 @@ body.dark-mode {
   animation: none;
   transition: background-color 0.6s ease, color 0.6s ease;
 }
+
+/* Particules et globe visibles seulement en dark mode */
+body.dark-mode #particles-canvas {
+  opacity: 1;
+}
+body.dark-mode #globe-canvas {
+  display: block;
+}
+
 body.dark-mode h2 {
   background-color: #1e1e1e;
   color: #f0f0f0;
