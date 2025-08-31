@@ -1,23 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
   const welcome = document.getElementById("welcome-message");
+  const body = document.body;
 
-  // Afficher le contenu principal après intro
-  document.body.classList.add("ready");
-
+  // Masquer le contenu au départ
+  body.classList.remove("ready");
+  
   // Disparition progressive du message de bienvenue
   setTimeout(() => welcome.classList.add("fade-out"), 3000);
-  setTimeout(() => welcome.remove(), 4000);
+
+  // Suppression du message et affichage du contenu en fondu
+  setTimeout(() => {
+    welcome.remove();
+    // Ajouter la classe ready pour afficher le contenu
+    body.classList.add("ready");
+
+    // Ajouter transition pour tous les containers
+    document.querySelectorAll(".container").forEach(container => {
+      container.style.opacity = 0;
+      container.style.transform = "translateY(40px)";
+      container.style.transition = "opacity 1s ease, transform 1s ease";
+      // déclencher l'animation après un petit délai
+      setTimeout(() => {
+        container.style.opacity = 1;
+        container.style.transform = "translateY(0)";
+      }, 50);
+    });
+  }, 4000);
 
   /* ------------------ ACCORDÉON ------------------ */
   document.querySelectorAll("h2").forEach((title) => {
     const content = title.nextElementSibling;
-
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
     };
-
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -49,12 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: "opacity 0.4s ease",
     zIndex: "9999"
   });
-  document.body.appendChild(scrollBtn);
-
-  scrollBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
+  body.appendChild(scrollBtn);
+  scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   window.addEventListener("scroll", () => {
     scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
     scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
@@ -80,18 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.4s ease, box-shadow 0.4s ease"
   });
-
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
     darkModeBtn.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
   });
-
   darkModeBtn.addEventListener("mouseleave", () => {
     darkModeBtn.style.transform = "rotate(0) scale(1)";
     darkModeBtn.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
   });
-
-  document.body.appendChild(darkModeBtn);
+  body.appendChild(darkModeBtn);
 
   /* ------------------ PARTICULES (mode clair) ------------------ */
   const canvas = document.createElement("canvas");
@@ -106,8 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "-1",
     transition: "opacity 0.5s ease"
   });
-  document.body.appendChild(canvas);
-
+  body.appendChild(canvas);
   const ctx = canvas.getContext("2d");
   let particlesArray = [];
   let mouse = { x: null, y: null };
@@ -116,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     particlesArray = [];
-
     const numParticles = Math.floor(window.innerWidth / 20);
     for (let i = 0; i < numParticles; i++) {
       particlesArray.push({
@@ -132,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     particlesArray.forEach(p => {
       ctx.beginPath();
       const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
@@ -141,41 +148,31 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fillStyle = gradient;
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
-
       p.x += p.speedX;
       p.y += p.speedY;
-
       if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
         p.x += (p.x - mouse.x) * 0.02;
         p.y += (p.y - mouse.y) * 0.02;
       }
-
       if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
       if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
     });
-
     requestAnimationFrame(animateParticles);
   }
 
   window.addEventListener("resize", initParticles);
-  window.addEventListener("mousemove", e => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-  });
+  window.addEventListener("mousemove", e => { mouse.x = e.x; mouse.y = e.y; });
 
   initParticles();
   animateParticles();
 
-  /* ------------------ DARK MODE : particules off, étoiles on ------------------ */
+  /* ------------------ DARK MODE ------------------ */
   darkModeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-
+    body.classList.toggle("dark-mode");
+    const isDark = body.classList.contains("dark-mode");
     darkModeBtn.textContent = isDark ? "☀️" : "🌙";
     canvas.style.opacity = isDark ? "0" : "1";
-
     if (isDark) {
-      // Ajouter des étoiles scintillantes
       for (let i = 0; i < 40; i++) {
         const star = document.createElement("div");
         star.classList.add("star");
@@ -183,10 +180,9 @@ document.addEventListener("DOMContentLoaded", () => {
         star.style.top = Math.random() * 100 + "vh";
         star.style.left = Math.random() * 100 + "vw";
         star.style.animationDelay = Math.random() * 3 + "s";
-        document.body.appendChild(star);
+        body.appendChild(star);
       }
     } else {
-      // Retirer les étoiles quand on revient en mode clair
       document.querySelectorAll(".star").forEach(s => s.remove());
     }
   });
@@ -194,33 +190,16 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ------------------ PHOTO PROFIL PULSE ------------------ */
   const photo = document.querySelector('.intro img.photo-profil');
   if (photo) {
-    let scale = 1;
-    let growing = true;
-    let animationFrameId = null;
-
+    let scale = 1, growing = true, animationFrameId = null;
     function animateZoom() {
-      if (growing) {
-        scale += 0.005;
-        if (scale >= 1.1) growing = false;
-      } else {
-        scale -= 0.005;
-        if (scale <= 1) growing = true;
-      }
+      if (growing) { scale += 0.005; if (scale >= 1.1) growing = false; }
+      else { scale -= 0.005; if (scale <= 1) growing = true; }
       photo.style.transform = `scale(${scale.toFixed(3)})`;
       animationFrameId = requestAnimationFrame(animateZoom);
     }
-
-    photo.addEventListener('mouseenter', () => {
-      if (!animationFrameId) animateZoom();
-    });
-
+    photo.addEventListener('mouseenter', () => { if (!animationFrameId) animateZoom(); });
     photo.addEventListener('mouseleave', () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-        scale = 1;
-        photo.style.transform = 'scale(1)';
-      }
+      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; scale = 1; photo.style.transform = 'scale(1)'; }
     });
   }
 });
