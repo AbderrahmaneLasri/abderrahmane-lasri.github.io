@@ -56,13 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollBtn.style.opacity = "1";
-      scrollBtn.style.pointerEvents = "auto";
-    } else {
-      scrollBtn.style.opacity = "0";
-      scrollBtn.style.pointerEvents = "none";
-    }
+    scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
+    scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
   });
 
   /* ------------------ BOUTON DARK MODE ------------------ */
@@ -98,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.appendChild(darkModeBtn);
 
-  /* ------------------ PARTICULES ------------------ */
+  /* ------------------ PARTICULES (mode clair) ------------------ */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -147,17 +142,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
-      // mouvement
       p.x += p.speedX;
       p.y += p.speedY;
 
-      // interaction avec la souris
       if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
         p.x += (p.x - mouse.x) * 0.02;
         p.y += (p.y - mouse.y) * 0.02;
       }
 
-      // rebonds
       if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
       if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
     });
@@ -174,11 +166,29 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   animateParticles();
 
-  // Gestion du Dark Mode (après ajout du canvas)
+  /* ------------------ DARK MODE : particules off, étoiles on ------------------ */
   darkModeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
-    canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
+    const isDark = document.body.classList.contains("dark-mode");
+
+    darkModeBtn.textContent = isDark ? "☀️" : "🌙";
+    canvas.style.opacity = isDark ? "0" : "1";
+
+    if (isDark) {
+      // Ajouter des étoiles scintillantes
+      for (let i = 0; i < 40; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.width = star.style.height = Math.random() * 3 + "px";
+        star.style.top = Math.random() * 100 + "vh";
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDelay = Math.random() * 3 + "s";
+        document.body.appendChild(star);
+      }
+    } else {
+      // Retirer les étoiles quand on revient en mode clair
+      document.querySelectorAll(".star").forEach(s => s.remove());
+    }
   });
 
   /* ------------------ PHOTO PROFIL PULSE ------------------ */
