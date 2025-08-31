@@ -239,11 +239,11 @@ body.dark-mode::before {
   opacity: 0;
   pointer-events: none;
 }
-/* Masquer tout sauf le message de bienvenue */
+
+/* ✅ Cette partie nécessite un script JS pour enlever l’écran d’intro */
 body > *:not(#welcome-message) {
   display: none;
 }
-/* Afficher le contenu après l’intro */
 body.ready > *:not(#welcome-message) {
   display: block;
 }
