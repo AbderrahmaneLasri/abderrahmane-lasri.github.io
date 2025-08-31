@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const welcome = document.getElementById("welcome-message");
 
-  // Affiche le contenu principal
+  // Afficher le contenu principal après intro
   document.body.classList.add("ready");
 
   // Disparition progressive du message de bienvenue
   setTimeout(() => welcome.classList.add("fade-out"), 3000);
   setTimeout(() => welcome.remove(), 4000);
 
-  // Accordéon des sections (h2 + contenu)
+  /* ------------------ ACCORDÉON ------------------ */
   document.querySelectorAll("h2").forEach((title) => {
     const content = title.nextElementSibling;
 
@@ -27,36 +27,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Bouton "Retour en haut"
+  /* ------------------ BOUTON RETOUR HAUT ------------------ */
   const scrollBtn = document.createElement("button");
-  scrollBtn.textContent = "↑ Haut";
+  scrollBtn.textContent = "↑";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
   Object.assign(scrollBtn.style, {
     position: "fixed",
     bottom: "30px",
     right: "30px",
     padding: "0.7rem 1.2rem",
-    borderRadius: "50px",
+    borderRadius: "50%",
     border: "none",
     backgroundColor: "#4ca1af",
     color: "#fff",
     fontWeight: "bold",
     cursor: "pointer",
-    fontSize: "1rem",
+    fontSize: "1.2rem",
     boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-    display: "none",
-    zIndex: "9999",
-    transition: "opacity 0.3s ease"
+    opacity: "0",
+    pointerEvents: "none",
+    transition: "opacity 0.4s ease",
+    zIndex: "9999"
   });
   document.body.appendChild(scrollBtn);
+
   scrollBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+
   window.addEventListener("scroll", () => {
-    scrollBtn.style.display = window.scrollY > 300 ? "block" : "none";
+    if (window.scrollY > 300) {
+      scrollBtn.style.opacity = "1";
+      scrollBtn.style.pointerEvents = "auto";
+    } else {
+      scrollBtn.style.opacity = "0";
+      scrollBtn.style.pointerEvents = "none";
+    }
   });
 
-  // Bouton de bascule du mode sombre
+  /* ------------------ BOUTON DARK MODE ------------------ */
   const darkModeBtn = document.createElement("button");
   darkModeBtn.textContent = "🌙";
   darkModeBtn.setAttribute("aria-label", "Basculer le mode sombre");
@@ -70,54 +79,26 @@ document.addEventListener("DOMContentLoaded", () => {
     border: "none",
     backgroundColor: "#222",
     color: "#fff",
-    fontSize: "1.2rem",
-    fontWeight: "bold",
+    fontSize: "1.3rem",
     cursor: "pointer",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.2)",
+    boxShadow: "0 6px 16px rgba(0,0,0,0.25)",
     zIndex: "10000",
-    transition: "transform 0.3s ease"
+    transition: "transform 0.4s ease, box-shadow 0.4s ease"
   });
+
   darkModeBtn.addEventListener("mouseenter", () => {
-    darkModeBtn.style.transform = "scale(1.1)";
+    darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
+    darkModeBtn.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
   });
+
   darkModeBtn.addEventListener("mouseleave", () => {
-    darkModeBtn.style.transform = "scale(1)";
+    darkModeBtn.style.transform = "rotate(0) scale(1)";
+    darkModeBtn.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
   });
+
   document.body.appendChild(darkModeBtn);
-  darkModeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    // Option : cacher les particules en mode sombre
-    if(document.body.classList.contains("dark-mode")) {
-      canvas.style.opacity = "0";
-    } else {
-      canvas.style.opacity = "1";
-    }
-  });
 
-  // Style JS dynamique (complément CSS pour + de détails)
-  const dynamicStyle = document.createElement("style");
-  dynamicStyle.textContent = `
-    body.dark-mode {
-      background-color: #121212 !important;
-      color: #e0e0e0 !important;
-    }
-    body.dark-mode h2, body.dark-mode p, body.dark-mode li {
-      color: #e0e0e0 !important;
-    }
-    body.dark-mode .btn {
-      background-color: #333 !important;
-      color: #fff !important;
-    }
-    body.dark-mode header {
-      background-color: #1c1c1c !important;
-    }
-    body.dark-mode footer {
-      background-color: #1a1a1a !important;
-    }
-  `;
-  document.head.appendChild(dynamicStyle);
-
-  // ---------- Animation particules lumineuses en fond ----------
+  /* ------------------ PARTICULES ------------------ */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -133,7 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(canvas);
 
   const ctx = canvas.getContext("2d");
-  let particlesArray;
+  let particlesArray = [];
+  let mouse = { x: null, y: null };
 
   function initParticles() {
     canvas.width = window.innerWidth;
@@ -141,14 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
     particlesArray = [];
 
     const numParticles = Math.floor(window.innerWidth / 20);
-
     for (let i = 0; i < numParticles; i++) {
       particlesArray.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         size: Math.random() * 3 + 1,
-        speedX: (Math.random() - 0.5) * 0.2,
-        speedY: (Math.random() - 0.5) * 0.2,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.3,
         opacity: Math.random() * 0.5 + 0.2,
       });
     }
@@ -159,16 +140,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     particlesArray.forEach(p => {
       ctx.beginPath();
-      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 5);
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
       gradient.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
       gradient.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = gradient;
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
+      // mouvement
       p.x += p.speedX;
       p.y += p.speedY;
 
+      // interaction avec la souris
+      if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
+        p.x += (p.x - mouse.x) * 0.02;
+        p.y += (p.y - mouse.y) * 0.02;
+      }
+
+      // rebonds
       if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
       if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
     });
@@ -176,14 +165,23 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(animateParticles);
   }
 
-  window.addEventListener("resize", () => {
-    initParticles();
+  window.addEventListener("resize", initParticles);
+  window.addEventListener("mousemove", e => {
+    mouse.x = e.x;
+    mouse.y = e.y;
   });
 
   initParticles();
   animateParticles();
 
-  // --------- Zoom progressif et pulsant sur la photo profil ----------
+  // Gestion du Dark Mode (après ajout du canvas)
+  darkModeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    darkModeBtn.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+    canvas.style.opacity = document.body.classList.contains("dark-mode") ? "0" : "1";
+  });
+
+  /* ------------------ PHOTO PROFIL PULSE ------------------ */
   const photo = document.querySelector('.intro img.photo-profil');
   if (photo) {
     let scale = 1;
@@ -203,9 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     photo.addEventListener('mouseenter', () => {
-      if (!animationFrameId) {
-        animateZoom();
-      }
+      if (!animationFrameId) animateZoom();
     });
 
     photo.addEventListener('mouseleave', () => {
