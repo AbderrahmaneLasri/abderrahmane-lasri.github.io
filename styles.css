@@ -247,3 +247,37 @@ body > *:not(#welcome-message) {
 body.ready > *:not(#welcome-message) {
   display: block;
 }
+/* ---------- CERTIFICATS ---------- */
+.certificats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 15px;
+}
+
+.certificat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.certificat-item p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.certificat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+@media (min-width: 768px) {
+  .certificats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
