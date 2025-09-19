@@ -108,19 +108,23 @@ h2 {
 h2:hover {
   background-color: #e0e0e0;
 }
-
-/* ---------- CONTENU DES SECTIONS ---------- */
+/* ---------- CONTENU DES SECTIONS (toggle fluide PC + mobile) ---------- */
 .toggle-content {
-  display: none;
-  padding: 10px 15px;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+  margin-bottom: 0;
   border-left: 4px solid #4ca1af;
-  margin-bottom: 20px;
   background-color: #fafafa;
-  transition: max-height 0.4s ease, padding 0.4s ease;
+  transition: max-height 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease;
 }
+
 .toggle-content.open {
-  display: block;
+  max-height: 1000px; /* assez grand pour le contenu */
+  padding: 10px 15px;
+  margin-bottom: 20px;
 }
+
 
 /* ---------- FOOTER ---------- */
 footer {
