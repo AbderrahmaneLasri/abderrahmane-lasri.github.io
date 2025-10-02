@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const welcome = document.getElementById("welcome-message");
   const body = document.body;
+  const welcome = document.getElementById("welcome-message");
 
   // Masquer le contenu au départ
   body.classList.remove("ready");
@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     welcome.remove();
     body.classList.add("ready");
-
     document.querySelectorAll(".container").forEach(container => {
       container.style.opacity = 0;
       container.style.transform = "translateY(40px)";
@@ -27,66 +26,66 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ------------------ ACCORDÉON H2 ------------------ */
   document.querySelectorAll("h2").forEach(title => {
     const content = title.nextElementSibling;
-    if (content) content.classList.remove("open"); // fermé par défaut
+    content.style.maxHeight = "0px"; // fermé au départ
     title.setAttribute("aria-expanded", "false");
 
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
+      content.style.maxHeight = !expanded ? content.scrollHeight + "px" : "0px";
 
-      // Si c'est le H2 "Certificats et Diplômes", fermer toutes les sous-sections H3
-      if (title.textContent.trim() === "Certificats et Diplômes") {
+      // Si H2 = Certificats ou Diplômes, cacher toutes les H3 au départ
+      if (["Certificats", "Diplômes"].includes(title.textContent.trim())) {
         const h3s = content.querySelectorAll("h3");
-        const toggleContents = content.querySelectorAll(".toggle-content");
-        if (expanded) {
-          toggleContents.forEach(tc => tc.classList.remove("open"));
-          h3s.forEach(h3 => h3.setAttribute("aria-expanded", "false"));
-        }
+        h3s.forEach(h3 => {
+          const h3Content = h3.nextElementSibling;
+          h3Content.style.maxHeight = "0px"; // cacher H3
+          h3.setAttribute("aria-expanded", "false");
+        });
       }
     };
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
   });
 
   /* ------------------ ACCORDÉON H3 ------------------ */
-  document.querySelectorAll("#certificats h3").forEach(title => {
+  document.querySelectorAll("#certificats h3, #diplomes h3").forEach(title => {
     const content = title.nextElementSibling;
-    if (content) content.classList.remove("open"); // fermé par défaut
+    content.style.maxHeight = "0px";
     title.setAttribute("aria-expanded", "false");
 
     const toggle = () => {
       const isOpen = content.classList.contains("open");
+      const parentContent = title.closest("div");
 
-      // Fermer toutes les autres sous-sections
-      document.querySelectorAll("#certificats h3").forEach(otherTitle => {
+      // Fermer toutes les autres H3 du même H2 parent
+      parentContent.querySelectorAll("h3").forEach(otherTitle => {
         const otherContent = otherTitle.nextElementSibling;
-        if (otherContent) otherContent.classList.remove("open");
-        otherTitle.setAttribute("aria-expanded", "false");
+        if (otherTitle !== title) {
+          otherContent.classList.remove("open");
+          otherContent.style.maxHeight = "0px";
+          otherTitle.setAttribute("aria-expanded", "false");
+        }
       });
 
-      // Ouvrir ou fermer celle-ci
       if (isOpen) {
         content.classList.remove("open");
+        content.style.maxHeight = "0px";
         title.setAttribute("aria-expanded", "false");
       } else {
         content.classList.add("open");
+        content.style.maxHeight = content.scrollHeight + "px";
         title.setAttribute("aria-expanded", "true");
       }
     };
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
   });
 
@@ -149,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   body.appendChild(darkModeBtn);
 
-  /* ------------------ PARTICULES (mode clair) ------------------ */
+  /* ------------------ PARTICULES ------------------ */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -179,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
         size: Math.random() * 3 + 1,
         speedX: (Math.random() - 0.5) * 0.3,
         speedY: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.5 + 0.2,
+        opacity: Math.random() * 0.5 + 0.2
       });
     }
   }
@@ -218,6 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const isDark = body.classList.contains("dark-mode");
     darkModeBtn.textContent = isDark ? "☀️" : "🌙";
     canvas.style.opacity = isDark ? "0" : "1";
+
+    // étoiles scintillantes
     if (isDark) {
       for (let i = 0; i < 40; i++) {
         const star = document.createElement("div");
@@ -233,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ------------------ PHOTO PROFIL PULSE ------------------ */
+  /* ------------------ ANIMATION PHOTO PROFIL ------------------ */
   const photo = document.querySelector('.intro img.photo-profil');
   if (photo) {
     let scale = 1, growing = true, animationFrameId = null;
