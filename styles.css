@@ -12,7 +12,6 @@ body {
   position: relative;
   overflow-x: hidden;
   z-index: 0;
-  /* Animation dégradé */
   background-size: 600% 600%;
   animation: backgroundGradient 30s ease infinite;
 }
@@ -108,6 +107,7 @@ h2 {
 h2:hover {
   background-color: #e0e0e0;
 }
+
 /* ---------- CONTENU DES SECTIONS (toggle fluide PC + mobile) ---------- */
 .toggle-content {
   max-height: 0;
@@ -120,11 +120,10 @@ h2:hover {
 }
 
 .toggle-content.open {
-  max-height: 1000px; /* assez grand pour le contenu */
+  max-height: 1000px;
   padding: 10px 15px;
   margin-bottom: 20px;
 }
-
 
 /* ---------- FOOTER ---------- */
 footer {
@@ -250,6 +249,8 @@ body > *:not(#welcome-message) {
 }
 body.ready > *:not(#welcome-message) {
   display: block;
+}
+
 /* ---------- CERTIFICATS PREMIUM MODERNES & SOBRES ---------- */
 .certificats-grid {
   display: grid;
@@ -265,7 +266,7 @@ body.ready > *:not(#welcome-message) {
   justify-content: space-between;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
-  padding: 14px 20px; /* légèrement plus petit */
+  padding: 14px 20px;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
@@ -287,7 +288,7 @@ body.ready > *:not(#welcome-message) {
 .certificat-item p {
   margin: 0;
   font-weight: 600;
-  font-size: 0.95rem; /* texte légèrement plus petit */
+  font-size: 0.95rem;
   color: #2c3e50;
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
@@ -297,7 +298,6 @@ body.ready > *:not(#welcome-message) {
   text-shadow: 0 0 4px rgba(76,161,175,0.25);
 }
 
-/* ---------- BOUTON + ICÔNE SOBRE ---------- */
 .certificat-item .btn {
   display: flex;
   align-items: center;
@@ -305,7 +305,7 @@ body.ready > *:not(#welcome-message) {
   background: rgba(255,255,255,0.9);
   color: #4ca1af;
   font-weight: 600;
-  font-size: 0.85rem; /* bouton plus petit */
+  font-size: 0.85rem;
   padding: 6px 12px;
   border-radius: 10px;
   border: 1px solid rgba(76,161,175,0.3);
@@ -331,14 +331,54 @@ body.ready > *:not(#welcome-message) {
   transform: rotate(15deg) scale(1.1);
 }
 
-/* Responsive : 2 colonnes sur grand écran */
 @media (min-width: 768px) {
   .certificats-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 
-/* ---------- MODE SOMBRE ---------- */
+/* ---------- H3 & CONTENU TOGGLE POUR LES CERTIFICATS (AJOUT ACCORDÉON) ---------- */
+#certificats h3 {
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f1f1f1;
+  border-left: 4px solid #4ca1af;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#certificats h3:hover {
+  background-color: #e0e0e0;
+}
+
+#certificats .toggle-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+  margin-bottom: 0;
+  border-left: 4px solid #4ca1af;
+  background-color: #fafafa;
+  transition: max-height 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease;
+}
+
+#certificats .toggle-content.open {
+  max-height: 1000px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
+
+/* ---------- DARK MODE POUR LES SOUS-SECTIONS CERTIFICATS ---------- */
+body.dark-mode #certificats h3 {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark-mode #certificats .toggle-content {
+  background-color: #1a1a1a;
+  border-left-color: #4ca1af;
+}
+
+/* ---------- MODE SOMBRE POUR CERTIFICATS ---------- */
 body.dark-mode .certificat-item {
   background: rgba(40, 40, 40, 0.95);
   box-shadow: 0 4px 12px rgba(0,0,0,0.35);
