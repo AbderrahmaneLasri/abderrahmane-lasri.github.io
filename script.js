@@ -27,33 +27,21 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ------------------ ACCORDÉON H2 ------------------ */
   document.querySelectorAll("h2").forEach(title => {
     const content = title.nextElementSibling;
-    // Si c'est la rubrique Certificats, cacher le contenu au départ
-    if(title.textContent.includes("Certificats")) {
-      content.style.display = "none";
-      title.setAttribute("aria-expanded", "false");
-      title.addEventListener("click", () => {
-        const isOpen = content.style.display === "block";
-        content.style.display = isOpen ? "none" : "block";
-        title.setAttribute("aria-expanded", String(!isOpen));
-      });
-    } else {
-      // Accordéon classique pour les autres h2
-      const toggle = () => {
-        const expanded = title.getAttribute("aria-expanded") === "true";
-        title.setAttribute("aria-expanded", String(!expanded));
-        content.classList.toggle("open");
-      };
-      title.addEventListener("click", toggle);
-      title.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggle();
-        }
-      });
-    }
+    const toggle = () => {
+      const expanded = title.getAttribute("aria-expanded") === "true";
+      title.setAttribute("aria-expanded", String(!expanded));
+      content.classList.toggle("open");
+    };
+    title.addEventListener("click", toggle);
+    title.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
+    });
   });
 
-  /* ------------------ ACCORDÉON H3 (Sous-sections Certificats) ------------------ */
+  /* ------------------ ACCORDÉON H3 (Sous-sections Certificats) avec exclusivité ------------------ */
   document.querySelectorAll("#certificats h3").forEach(title => {
     const content = title.nextElementSibling;
     content.style.maxHeight = "0px"; // fermé au départ
@@ -61,7 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const toggle = () => {
       const isOpen = content.classList.contains("open");
-      if(isOpen) {
+
+      // Fermer toutes les autres sous-sections
+      document.querySelectorAll("#certificats h3").forEach(otherTitle => {
+        const otherContent = otherTitle.nextElementSibling;
+        if (otherTitle !== title) {
+          otherContent.classList.remove("open");
+          otherContent.style.maxHeight = "0px";
+          otherTitle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Ouvrir ou fermer celle-ci
+      if (isOpen) {
         content.classList.remove("open");
         content.style.maxHeight = "0px";
         title.setAttribute("aria-expanded", "false");
