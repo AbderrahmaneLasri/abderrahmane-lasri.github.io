@@ -4,22 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Masquer le contenu au départ
   body.classList.remove("ready");
-  
+
   // Disparition progressive du message de bienvenue
   setTimeout(() => welcome.classList.add("fade-out"), 3000);
 
   // Suppression du message et affichage du contenu en fondu
   setTimeout(() => {
     welcome.remove();
-    // Ajouter la classe ready pour afficher le contenu
     body.classList.add("ready");
 
-    // Ajouter transition pour tous les containers
     document.querySelectorAll(".container").forEach(container => {
       container.style.opacity = 0;
       container.style.transform = "translateY(40px)";
       container.style.transition = "opacity 1s ease, transform 1s ease";
-      // déclencher l'animation après un petit délai
       setTimeout(() => {
         container.style.opacity = 1;
         container.style.transform = "translateY(0)";
@@ -27,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, 4000);
 
-  /* ------------------ ACCORDÉON ------------------ */
-  document.querySelectorAll("h2").forEach((title) => {
+  /* ------------------ ACCORDÉON H2 ------------------ */
+  document.querySelectorAll("h2").forEach(title => {
     const content = title.nextElementSibling;
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
@@ -36,7 +33,24 @@ document.addEventListener("DOMContentLoaded", () => {
       content.classList.toggle("open");
     };
     title.addEventListener("click", toggle);
-    title.addEventListener("keydown", (e) => {
+    title.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+
+  /* ------------------ ACCORDÉON H3 (Sous-sections Certificats) ------------------ */
+  document.querySelectorAll("#certificats h3").forEach(title => {
+    const content = title.nextElementSibling;
+    const toggle = () => {
+      const expanded = title.getAttribute("aria-expanded") === "true";
+      title.setAttribute("aria-expanded", String(!expanded));
+      content.classList.toggle("open");
+    };
+    title.addEventListener("click", toggle);
+    title.addEventListener("keydown", e => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         toggle();
