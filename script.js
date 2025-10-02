@@ -31,6 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
+
+      // Si c'est le H2 "Certificats", fermer toutes les sous-sections H3
+      if (title.textContent.trim() === "Certificats") {
+        const h3s = content.querySelectorAll("h3");
+        const toggleContents = content.querySelectorAll(".toggle-content");
+        if (expanded) {
+          // On a cliqué pour fermer => fermer tous les H3
+          toggleContents.forEach(tc => tc.classList.remove("open"));
+          h3s.forEach(h3 => h3.setAttribute("aria-expanded", "false"));
+        }
+      }
     };
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
