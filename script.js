@@ -32,15 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
 
-      // Si c'est le H2 "Certificats", fermer toutes les sous-sections H3
-      if (title.textContent.trim() === "Certificats") {
+      // Si c'est la section Certificats, fermer aussi tous les H3 + contenus quand on replie
+      if (title.parentElement.id === "certificats" && expanded) {
         const h3s = content.querySelectorAll("h3");
         const toggleContents = content.querySelectorAll(".toggle-content");
-        if (expanded) {
-          // On a cliqué pour fermer => fermer tous les H3
-          toggleContents.forEach(tc => tc.classList.remove("open"));
-          h3s.forEach(h3 => h3.setAttribute("aria-expanded", "false"));
-        }
+        toggleContents.forEach(tc => tc.classList.remove("open"));
+        h3s.forEach(h3 => h3.setAttribute("aria-expanded", "false"));
       }
     };
     title.addEventListener("click", toggle);
@@ -52,33 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* ------------------ ACCORDÉON H3 (Sous-sections Certificats) avec exclusivité ------------------ */
+  /* ------------------ ACCORDÉON H3 (Sous-sections Certificats) ------------------ */
   document.querySelectorAll("#certificats h3").forEach(title => {
     const content = title.nextElementSibling;
-    content.style.maxHeight = "0px"; // fermé au départ
+    content.classList.remove("open"); // fermé au départ
     title.setAttribute("aria-expanded", "false");
 
     const toggle = () => {
       const isOpen = content.classList.contains("open");
-
-      // Fermer toutes les autres sous-sections
-      document.querySelectorAll("#certificats h3").forEach(otherTitle => {
-        const otherContent = otherTitle.nextElementSibling;
-        if (otherTitle !== title) {
-          otherContent.classList.remove("open");
-          otherContent.style.maxHeight = "0px";
-          otherTitle.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      // Ouvrir ou fermer celle-ci
       if (isOpen) {
         content.classList.remove("open");
-        content.style.maxHeight = "0px";
         title.setAttribute("aria-expanded", "false");
       } else {
         content.classList.add("open");
-        content.style.maxHeight = content.scrollHeight + "px";
         title.setAttribute("aria-expanded", "true");
       }
     };
