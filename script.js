@@ -2,90 +2,72 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const welcome = document.getElementById("welcome-message");
 
-  // Masquer le contenu au départ
-  body.classList.remove("ready");
-
-  // Disparition progressive du message de bienvenue
-  setTimeout(() => welcome.classList.add("fade-out"), 3000);
-
-  // Suppression du message et affichage du contenu en fondu
-  setTimeout(() => {
-    welcome.remove();
-    body.classList.add("ready");
-    document.querySelectorAll(".container").forEach(container => {
-      container.style.opacity = 0;
-      container.style.transform = "translateY(40px)";
-      container.style.transition = "opacity 1s ease, transform 1s ease";
-      setTimeout(() => {
-        container.style.opacity = 1;
-        container.style.transform = "translateY(0)";
-      }, 50);
-    });
-  }, 4000);
+  /* ------------------ APPARITION INITIALE ------------------ */
+  if (welcome) {
+    body.classList.remove("ready");
+    setTimeout(() => welcome.classList.add("fade-out"), 3000);
+    setTimeout(() => {
+      welcome.remove();
+      body.classList.add("ready");
+      document.querySelectorAll(".container").forEach(container => {
+        container.style.opacity = 0;
+        container.style.transform = "translateY(40px)";
+        container.style.transition = "opacity 1s ease, transform 1s ease";
+        setTimeout(() => {
+          container.style.opacity = 1;
+          container.style.transform = "translateY(0)";
+        }, 50);
+      });
+    }, 4000);
+  }
 
   /* ------------------ ACCORDÉON H2 ------------------ */
-  document.querySelectorAll("h2").forEach(title => {
-    const content = title.nextElementSibling;
-    content.style.maxHeight = "0px"; // fermé au départ
+  document.querySelectorAll("section > h2").forEach(title => {
+    const content = title.parentElement.querySelector(".toggle-content");
+    if (!content) return;
+    content.style.maxHeight = "0px";
+    content.style.overflow = "hidden";
     title.setAttribute("aria-expanded", "false");
+    title.style.cursor = "pointer";
 
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
       title.setAttribute("aria-expanded", String(!expanded));
-      content.classList.toggle("open");
-      content.style.maxHeight = !expanded ? content.scrollHeight + "px" : "0px";
-
-      // Si H2 = Certificats ou Diplômes, cacher toutes les H3 au départ
-      if (["Certificats", "Diplômes"].includes(title.textContent.trim())) {
-        const h3s = content.querySelectorAll("h3");
-        h3s.forEach(h3 => {
-          const h3Content = h3.nextElementSibling;
-          h3Content.style.maxHeight = "0px"; // cacher H3
-          h3.setAttribute("aria-expanded", "false");
-        });
-      }
+      content.style.maxHeight = expanded ? "0px" : content.scrollHeight + "px";
+      content.classList.toggle("open", !expanded);
     };
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      if (["Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        toggle();
+      }
     });
   });
 
-  /* ------------------ ACCORDÉON H3 ------------------ */
-  document.querySelectorAll("#certificats h3, #diplomes h3").forEach(title => {
+  /* ------------------ ACCORDÉON H3 (CERTIFICATS) ------------------ */
+  document.querySelectorAll("#certificats h3").forEach(title => {
     const content = title.nextElementSibling;
+    if (!content) return;
     content.style.maxHeight = "0px";
+    content.style.overflow = "hidden";
     title.setAttribute("aria-expanded", "false");
+    title.style.cursor = "pointer";
 
     const toggle = () => {
-      const isOpen = content.classList.contains("open");
-      const parentContent = title.closest("div");
-
-      // Fermer toutes les autres H3 du même H2 parent
-      parentContent.querySelectorAll("h3").forEach(otherTitle => {
-        const otherContent = otherTitle.nextElementSibling;
-        if (otherTitle !== title) {
-          otherContent.classList.remove("open");
-          otherContent.style.maxHeight = "0px";
-          otherTitle.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      if (isOpen) {
-        content.classList.remove("open");
-        content.style.maxHeight = "0px";
-        title.setAttribute("aria-expanded", "false");
-      } else {
-        content.classList.add("open");
-        content.style.maxHeight = content.scrollHeight + "px";
-        title.setAttribute("aria-expanded", "true");
-      }
+      const expanded = title.getAttribute("aria-expanded") === "true";
+      title.setAttribute("aria-expanded", String(!expanded));
+      content.style.maxHeight = expanded ? "0px" : content.scrollHeight + "px";
+      content.classList.toggle("open", !expanded);
     };
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      if (["Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        toggle();
+      }
     });
   });
 
@@ -112,10 +94,15 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "9999"
   });
   body.appendChild(scrollBtn);
-  scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  scrollBtn.addEventListener("click", () =>
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  );
+
   window.addEventListener("scroll", () => {
-    scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
-    scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
+    const visible = window.scrollY > 300;
+    scrollBtn.style.opacity = visible ? "1" : "0";
+    scrollBtn.style.pointerEvents = visible ? "auto" : "none";
   });
 
   /* ------------------ BOUTON DARK MODE ------------------ */
@@ -138,6 +125,8 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.4s ease, box-shadow 0.4s ease"
   });
+  body.appendChild(darkModeBtn);
+
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
     darkModeBtn.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
@@ -146,9 +135,8 @@ document.addEventListener("DOMContentLoaded", () => {
     darkModeBtn.style.transform = "rotate(0) scale(1)";
     darkModeBtn.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
   });
-  body.appendChild(darkModeBtn);
 
-  /* ------------------ PARTICULES ------------------ */
+  /* ------------------ PARTICULES LUMINEUSES ------------------ */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -207,7 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", initParticles);
   window.addEventListener("mousemove", e => { mouse.x = e.x; mouse.y = e.y; });
-
   initParticles();
   animateParticles();
 
@@ -218,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     darkModeBtn.textContent = isDark ? "☀️" : "🌙";
     canvas.style.opacity = isDark ? "0" : "1";
 
-    // étoiles scintillantes
+    // petites étoiles scintillantes
     if (isDark) {
       for (let i = 0; i < 40; i++) {
         const star = document.createElement("div");
@@ -235,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ------------------ ANIMATION PHOTO PROFIL ------------------ */
-  const photo = document.querySelector('.intro img.photo-profil');
+  const photo = document.querySelector(".intro img.photo-profil");
   if (photo) {
     let scale = 1, growing = true, animationFrameId = null;
     function animateZoom() {
@@ -244,9 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
       photo.style.transform = `scale(${scale.toFixed(3)})`;
       animationFrameId = requestAnimationFrame(animateZoom);
     }
-    photo.addEventListener('mouseenter', () => { if (!animationFrameId) animateZoom(); });
-    photo.addEventListener('mouseleave', () => {
-      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; scale = 1; photo.style.transform = 'scale(1)'; }
+    photo.addEventListener("mouseenter", () => {
+      if (!animationFrameId) animateZoom();
+    });
+    photo.addEventListener("mouseleave", () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        scale = 1;
+        photo.style.transform = "scale(1)";
+      }
     });
   }
 });
