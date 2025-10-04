@@ -337,7 +337,7 @@ body.ready > *:not(#welcome-message) {
   }
 }
 
-/* ---------- H3 & CONTENU TOGGLE POUR LES CERTIFICATS (AJOUT ACCORDÉON) ---------- */
+/* ---------- H3 & CONTENU TOGGLE POUR LES CERTIFICATS ---------- */
 #certificats h3 {
   cursor: pointer;
   padding: 10px;
