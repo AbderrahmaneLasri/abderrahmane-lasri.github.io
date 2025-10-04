@@ -1,257 +1,408 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const body = document.body;
-  const welcome = document.getElementById("welcome-message");
+/* ---------- FOND D'ÉCRAN ÉLÉGANT & ANIMÉ ---------- */
+body {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f9f7f1, #eae7de);
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  background-repeat: repeat;
+  background-size: 400px 400px;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  position: relative;
+  overflow-x: hidden;
+  z-index: 0;
+  background-size: 600% 600%;
+  animation: backgroundGradient 30s ease infinite;
+}
 
-  // Masquer le contenu au départ
-  body.classList.remove("ready");
+@keyframes backgroundGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  // Disparition progressive du message de bienvenue
-  setTimeout(() => welcome.classList.add("fade-out"), 3000);
+/* Motif géométrique discret façon "planche" */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(#aaa 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.04;
+  z-index: -1;
+  pointer-events: none;
+}
 
-  // Suppression du message et affichage du contenu en fondu
-  setTimeout(() => {
-    welcome.remove();
-    body.classList.add("ready");
+/* Canvas pour particules */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
 
-    document.querySelectorAll(".container").forEach(container => {
-      container.style.opacity = 0;
-      container.style.transform = "translateY(40px)";
-      container.style.transition = "opacity 1s ease, transform 1s ease";
-      setTimeout(() => {
-        container.style.opacity = 1;
-        container.style.transform = "translateY(0)";
-      }, 50);
-    });
-  }, 4000);
+/* ---------- CONTAINERS ---------- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-  /* ------------------ ACCORDÉON H2 (Toutes les rubriques) ------------------ */
-  document.querySelectorAll("h2").forEach(title => {
-    const content = title.nextElementSibling;
-    if (!content) return; // sécurité si pas de div suivant
-    content.style.maxHeight = "0px";
-    title.setAttribute("aria-expanded", "false");
+/* ---------- HEADER ---------- */
+header {
+  background: #4ca1af;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
 
-    const toggle = () => {
-      const expanded = title.getAttribute("aria-expanded") === "true";
-      title.setAttribute("aria-expanded", String(!expanded));
-      content.classList.toggle("open");
-      content.style.maxHeight = !expanded ? content.scrollHeight + "px" : "0px";
+.intro img.photo-profil {
+  max-width: 150px;
+  border-radius: 50%;
+  margin-top: 20px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+.intro img.photo-profil:hover {
+  transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 
-      // Si H2 = Certificats ou Diplômes, cacher toutes les H3 au départ
-      if (["Certificats", "Diplômes"].includes(title.textContent.trim())) {
-        const h3s = content.querySelectorAll("h3");
-        h3s.forEach(h3 => {
-          const h3Content = h3.nextElementSibling;
-          if (h3Content) {
-            h3Content.style.maxHeight = "0px";
-            h3.setAttribute("aria-expanded", "false");
-          }
-        });
-      }
-    };
+/* ---------- BOUTONS ---------- */
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+  color: #4ca1af;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn:hover {
+  background-color: #eee;
+  transform: translateY(-2px) scale(1.05);
+}
 
-    title.addEventListener("click", toggle);
-    title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
-    });
-  });
+/* ---------- TITRES ---------- */
+h2 {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-left: 4px solid #4ca1af;
+  transition: background-color 0.3s, text-shadow 0.6s ease, color 0.6s ease;
+}
+h2:hover {
+  background-color: #e0e0e0;
+}
 
-  /* ------------------ ACCORDÉON H3 (Certificats & Diplômes) ------------------ */
-  document.querySelectorAll("#certificats h3, #diplomes h3").forEach(title => {
-    const content = title.nextElementSibling;
-    if (!content) return;
-    content.style.maxHeight = "0px";
-    title.setAttribute("aria-expanded", "false");
+/* ---------- CONTENU DES SECTIONS (toggle fluide PC + mobile) ---------- */
+.toggle-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+  margin-bottom: 0;
+  border-left: 4px solid #4ca1af;
+  background-color: #fafafa;
+  transition: max-height 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease;
+}
 
-    const toggle = () => {
-      const isOpen = content.classList.contains("open");
-      const parentContent = title.closest("div");
+.toggle-content.open {
+  max-height: 1000px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
 
-      // Fermer toutes les autres H3 du même H2 parent
-      parentContent.querySelectorAll("h3").forEach(otherTitle => {
-        const otherContent = otherTitle.nextElementSibling;
-        if (otherTitle !== title && otherContent) {
-          otherContent.classList.remove("open");
-          otherContent.style.maxHeight = "0px";
-          otherTitle.setAttribute("aria-expanded", "false");
-        }
-      });
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  font-size: 0.9em;
+}
 
-      if (isOpen) {
-        content.classList.remove("open");
-        content.style.maxHeight = "0px";
-        title.setAttribute("aria-expanded", "false");
-      } else {
-        content.classList.add("open");
-        content.style.maxHeight = content.scrollHeight + "px";
-        title.setAttribute("aria-expanded", "true");
-      }
-    };
+/* ---------- MODE SOMBRE ---------- */
+body.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+  background-image: none;
+  animation: none;
+  transition: background-color 0.6s ease, color 0.6s ease;
+}
+body.dark-mode h2 {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  text-shadow: 0 0 10px rgba(76,161,175,0.6), 0 0 20px rgba(76,161,175,0.4);
+}
+body.dark-mode .toggle-content {
+  background-color: #1a1a1a;
+  border-left-color: #4ca1af;
+}
+body.dark-mode::before {
+  background-image: radial-gradient(#555 1px, transparent 1px);
+  opacity: 0.06;
+}
 
-    title.addEventListener("click", toggle);
-    title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
-    });
-  });
+/* ---------- ÉTOILES SCINTILLANTES EN DARK MODE ---------- */
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle 3s infinite ease-in-out;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
 
-  /* ------------------ BOUTON RETOUR HAUT ------------------ */
-  const scrollBtn = document.createElement("button");
-  scrollBtn.textContent = "↑";
-  scrollBtn.setAttribute("aria-label", "Remonter en haut");
-  Object.assign(scrollBtn.style, {
-    position: "fixed",
-    bottom: "30px",
-    right: "30px",
-    padding: "0.7rem 1.2rem",
-    borderRadius: "50%",
-    border: "none",
-    backgroundColor: "#4ca1af",
-    color: "#fff",
-    fontWeight: "bold",
-    cursor: "pointer",
-    fontSize: "1.2rem",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-    opacity: "0",
-    pointerEvents: "none",
-    transition: "opacity 0.4s ease",
-    zIndex: "9999"
-  });
-  body.appendChild(scrollBtn);
-  scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-  window.addEventListener("scroll", () => {
-    scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
-    scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
-  });
+/* ---------- CURSEUR PERSONNALISÉ ---------- */
+.cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4ca1af;
+  border-radius: 50%;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.1s ease-out;
+  z-index: 10000;
+}
 
-  /* ------------------ BOUTON DARK MODE ------------------ */
-  const darkModeBtn = document.createElement("button");
-  darkModeBtn.textContent = "🌙";
-  darkModeBtn.setAttribute("aria-label", "Basculer le mode sombre");
-  Object.assign(darkModeBtn.style, {
-    position: "fixed",
-    top: "30px",
-    right: "30px",
-    width: "48px",
-    height: "48px",
-    borderRadius: "50%",
-    border: "none",
-    backgroundColor: "#222",
-    color: "#fff",
-    fontSize: "1.3rem",
-    cursor: "pointer",
-    boxShadow: "0 6px 16px rgba(0,0,0,0.25)",
-    zIndex: "10000",
-    transition: "transform 0.4s ease, box-shadow 0.4s ease"
-  });
-  darkModeBtn.addEventListener("mouseenter", () => {
-    darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
-    darkModeBtn.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
-  });
-  darkModeBtn.addEventListener("mouseleave", () => {
-    darkModeBtn.style.transform = "rotate(0) scale(1)";
-    darkModeBtn.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
-  });
-  body.appendChild(darkModeBtn);
+/* ---------- BOUTON DARK MODE ---------- */
+#dark-mode-btn {
+  transition: transform 0.6s ease;
+}
+#dark-mode-btn.rotate {
+  transform: rotate(360deg);
+}
 
-  /* ------------------ PARTICULES ------------------ */
-  const canvas = document.createElement("canvas");
-  canvas.id = "particles-canvas";
-  Object.assign(canvas.style, {
-    position: "fixed",
-    top: "0",
-    left: "0",
-    width: "100vw",
-    height: "100vh",
-    pointerEvents: "none",
-    zIndex: "-1",
-    transition: "opacity 0.5s ease"
-  });
-  body.appendChild(canvas);
-  const ctx = canvas.getContext("2d");
-  let particlesArray = [];
-  let mouse = { x: null, y: null };
-
-  function initParticles() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    particlesArray = [];
-    const numParticles = Math.floor(window.innerWidth / 20);
-    for (let i = 0; i < numParticles; i++) {
-      particlesArray.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        size: Math.random() * 3 + 1,
-        speedX: (Math.random() - 0.5) * 0.3,
-        speedY: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.5 + 0.2
-      });
-    }
+/* ---------- RESPONSIVE ---------- */
+@media screen and (max-width: 600px) {
+  header {
+    padding: 20px 10px;
   }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particlesArray.forEach(p => {
-      ctx.beginPath();
-      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
-      gradient.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
-      gradient.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = gradient;
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-      p.x += p.speedX;
-      p.y += p.speedY;
-      if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
-        p.x += (p.x - mouse.x) * 0.02;
-        p.y += (p.y - mouse.y) * 0.02;
-      }
-      if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
-      if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
-    });
-    requestAnimationFrame(animateParticles);
+  .intro img.photo-profil {
+    max-width: 100px;
+    display: block;
+    margin: 20px auto;
   }
-
-  window.addEventListener("resize", initParticles);
-  window.addEventListener("mousemove", e => { mouse.x = e.x; mouse.y = e.y; });
-
-  initParticles();
-  animateParticles();
-
-  /* ------------------ DARK MODE ------------------ */
-  darkModeBtn.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-    const isDark = body.classList.contains("dark-mode");
-    darkModeBtn.textContent = isDark ? "☀️" : "🌙";
-    canvas.style.opacity = isDark ? "0" : "1";
-
-    // étoiles scintillantes
-    if (isDark) {
-      for (let i = 0; i < 40; i++) {
-        const star = document.createElement("div");
-        star.classList.add("star");
-        star.style.width = star.style.height = Math.random() * 3 + "px";
-        star.style.top = Math.random() * 100 + "vh";
-        star.style.left = Math.random() * 100 + "vw";
-        star.style.animationDelay = Math.random() * 3 + "s";
-        body.appendChild(star);
-      }
-    } else {
-      document.querySelectorAll(".star").forEach(s => s.remove());
-    }
-  });
-
-  /* ------------------ ANIMATION PHOTO PROFIL ------------------ */
-  const photo = document.querySelector('.intro img.photo-profil');
-  if (photo) {
-    let scale = 1, growing = true, animationFrameId = null;
-    function animateZoom() {
-      if (growing) { scale += 0.005; if (scale >= 1.1) growing = false; }
-      else { scale -= 0.005; if (scale <= 1) growing = true; }
-      photo.style.transform = `scale(${scale.toFixed(3)})`;
-      animationFrameId = requestAnimationFrame(animateZoom);
-    }
-    photo.addEventListener('mouseenter', () => { if (!animationFrameId) animateZoom(); });
-    photo.addEventListener('mouseleave', () => {
-      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; scale = 1; photo.style.transform = 'scale(1)'; }
-    });
+  .btn {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    font-size: 1rem;
+    text-align: center;
   }
-});
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    font-size: 1.2rem;
+  }
+  p, li {
+    font-size: 0.95rem;
+  }
+  .container {
+    padding: 10px;
+  }
+}
+
+/* ---------- MESSAGE DE BIENVENUE ---------- */
+#welcome-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #4ca1af;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+#welcome-message.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ✅ Cette partie nécessite un script JS pour enlever l’écran d’intro */
+body > *:not(#welcome-message) {
+  display: none;
+}
+body.ready > *:not(#welcome-message) {
+  display: block;
+}
+
+/* ---------- CERTIFICATS PREMIUM MODERNES & SOBRES ---------- */
+.certificats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+
+.certificat-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 14px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  cursor: pointer;
+  animation: float 6s ease-in-out infinite;
+}
+
+.certificat-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15), 0 0 8px rgba(76,161,175,0.25);
+  background: rgba(255, 255, 255, 1);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+.certificat-item p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.certificat-item:hover p {
+  color: #4ca1af;
+  text-shadow: 0 0 4px rgba(76,161,175,0.25);
+}
+
+.certificat-item .btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.9);
+  color: #4ca1af;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(76,161,175,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.certificat-item .btn svg,
+.certificat-item .btn i {
+  font-size: 1rem;
+  transition: transform 0.25s ease;
+}
+
+.certificat-item .btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: rgba(255,255,255,1);
+  color: #357a8f;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.certificat-item .btn:hover svg,
+.certificat-item .btn:hover i {
+  transform: rotate(15deg) scale(1.1);
+}
+
+@media (min-width: 768px) {
+  .certificats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- H3 & CONTENU TOGGLE POUR LES CERTIFICATS ---------- */
+#certificats h3 {
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f1f1f1;
+  border-left: 4px solid #4ca1af;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#certificats h3:hover {
+  background-color: #e0e0e0;
+}
+
+#certificats .toggle-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 15px;
+  margin-bottom: 0;
+  border-left: 4px solid #4ca1af;
+  background-color: #fafafa;
+  transition: max-height 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease;
+}
+
+#certificats .toggle-content.open {
+  max-height: 1000px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
+
+/* ---------- DARK MODE POUR LES SOUS-SECTIONS CERTIFICATS ---------- */
+body.dark-mode #certificats h3 {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+}
+
+body.dark-mode #certificats .toggle-content {
+  background-color: #1a1a1a;
+  border-left-color: #4ca1af;
+}
+
+/* ---------- MODE SOMBRE POUR CERTIFICATS ---------- */
+body.dark-mode .certificat-item {
+  background: rgba(40, 40, 40, 0.95);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+body.dark-mode .certificat-item p {
+  color: #e0f7fa;
+  text-shadow: 0 0 4px rgba(76,161,175,0.5);
+}
+
+body.dark-mode .certificat-item:hover p {
+  color: #4ca1af;
+  text-shadow: 0 0 6px rgba(76,161,175,0.7);
+}
+
+body.dark-mode .certificat-item .btn {
+  background: rgba(60,60,60,0.9);
+  color: #79c8d0;
+  border: 1px solid rgba(121,200,208,0.3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+body.dark-mode .certificat-item .btn:hover {
+  background: rgba(60,60,60,1);
+  color: #4ca1af;
+  box-shadow: 0 4px 12px rgba(121,200,208,0.35);
+}
