@@ -12,10 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     welcome.remove();
     body.classList.add("ready");
+
     document.querySelectorAll(".container").forEach(container => {
       container.style.opacity = 0;
       container.style.transform = "translateY(40px)";
       container.style.transition = "opacity 1s ease, transform 1s ease";
+
       setTimeout(() => {
         container.style.opacity = 1;
         container.style.transform = "translateY(0)";
@@ -48,7 +50,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
     });
   });
 
@@ -85,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggle();
+      }
     });
   });
 
@@ -112,7 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "9999"
   });
   body.appendChild(scrollBtn);
+
   scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
   window.addEventListener("scroll", () => {
     scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
     scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
@@ -138,14 +148,17 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "10000",
     transition: "transform 0.4s ease, box-shadow 0.4s ease"
   });
+
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
     darkModeBtn.style.boxShadow = "0 0 15px rgba(255,255,255,0.5)";
   });
+
   darkModeBtn.addEventListener("mouseleave", () => {
     darkModeBtn.style.transform = "rotate(0) scale(1)";
     darkModeBtn.style.boxShadow = "0 6px 16px rgba(0,0,0,0.25)";
   });
+
   body.appendChild(darkModeBtn);
 
   /* ------------------ PARTICULES ------------------ */
@@ -162,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: "opacity 0.5s ease"
   });
   body.appendChild(canvas);
+
   const ctx = canvas.getContext("2d");
   let particlesArray = [];
   let mouse = { x: null, y: null };
@@ -188,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
     particlesArray.forEach(p => {
       ctx.beginPath();
       const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 6);
-      gradient.addColorStop(0, `rgba(255,255,255,${p.opacity})`);
+      gradient.addColorStop(0, rgba(255,255,255,${p.opacity}));
       gradient.addColorStop(1, "rgba(255,255,255,0)");
       ctx.fillStyle = gradient;
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -206,7 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("resize", initParticles);
-  window.addEventListener("mousemove", e => { mouse.x = e.x; mouse.y = e.y; });
+  window.addEventListener("mousemove", e => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
 
   initParticles();
   animateParticles();
@@ -241,12 +258,17 @@ document.addEventListener("DOMContentLoaded", () => {
     function animateZoom() {
       if (growing) { scale += 0.005; if (scale >= 1.1) growing = false; }
       else { scale -= 0.005; if (scale <= 1) growing = true; }
-      photo.style.transform = `scale(${scale.toFixed(3)})`;
+      photo.style.transform = scale(${scale.toFixed(3)});
       animationFrameId = requestAnimationFrame(animateZoom);
     }
     photo.addEventListener('mouseenter', () => { if (!animationFrameId) animateZoom(); });
     photo.addEventListener('mouseleave', () => {
-      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; scale = 1; photo.style.transform = 'scale(1)'; }
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        scale = 1;
+        photo.style.transform = 'scale(1)';
+      }
     });
   }
 });
