@@ -2,16 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
   const welcome = document.getElementById("welcome-message");
 
-  // Masquer le contenu au départ
+  /* ------------------ ANIMATION D’INTRO ------------------ */
   body.classList.remove("ready");
-
-  // Disparition progressive du message de bienvenue
   setTimeout(() => welcome.classList.add("fade-out"), 3000);
-
-  // Suppression du message et affichage du contenu en fondu
   setTimeout(() => {
     welcome.remove();
     body.classList.add("ready");
+
     document.querySelectorAll(".container").forEach(container => {
       container.style.opacity = 0;
       container.style.transform = "translateY(40px)";
@@ -23,10 +20,76 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }, 4000);
 
-  /* ------------------ ACCORDÉON H2 ------------------ */
+  /* =======================================================
+     ⚙️ ACCORDÉONS CERTIFICATS & DIPLÔMES (version améliorée)
+     ======================================================= */
+  function initAccordeonsCertificats() {
+    const mainSections = document.querySelectorAll("#certificats, #diplomes");
+
+    mainSections.forEach(section => {
+      const categories = section.querySelectorAll(".categorie-certificats h3");
+
+      categories.forEach(h3 => {
+        const content = h3.nextElementSibling;
+        if (!content) return;
+
+        // État initial
+        content.style.maxHeight = "0px";
+        content.style.overflow = "hidden";
+        h3.setAttribute("aria-expanded", "false");
+
+        // Fonction de bascule
+        const toggleCategory = () => {
+          const isOpen = content.classList.contains("open");
+
+          // Fermer les autres catégories
+          categories.forEach(other => {
+            if (other !== h3) {
+              other.setAttribute("aria-expanded", "false");
+              other.nextElementSibling.classList.remove("open");
+              other.nextElementSibling.style.maxHeight = "0px";
+            }
+          });
+
+          // Ouvrir / fermer la catégorie
+          if (isOpen) {
+            content.classList.remove("open");
+            content.style.maxHeight = "0px";
+            h3.setAttribute("aria-expanded", "false");
+          } else {
+            content.classList.add("open");
+            content.style.maxHeight = content.scrollHeight + "px";
+            h3.setAttribute("aria-expanded", "true");
+
+            // Ajuster la hauteur si contenu dynamique
+            setTimeout(() => {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }, 300);
+          }
+        };
+
+        // Gestion du clic et clavier
+        h3.addEventListener("click", toggleCategory);
+        h3.addEventListener("keydown", e => {
+          if (["Enter", " "].includes(e.key)) {
+            e.preventDefault();
+            toggleCategory();
+          }
+        });
+      });
+    });
+  }
+
+  // Initialiser les accordéons
+  initAccordeonsCertificats();
+
+  /* =======================================================
+     ⚙️ ACCORDÉONS GÉNÉRAUX (H2)
+     ======================================================= */
   document.querySelectorAll("h2").forEach(title => {
     const content = title.nextElementSibling;
-    content.style.maxHeight = "0px"; // fermé au départ
+    if (!content) return;
+    content.style.maxHeight = "0px";
     title.setAttribute("aria-expanded", "false");
 
     const toggle = () => {
@@ -34,62 +97,20 @@ document.addEventListener("DOMContentLoaded", () => {
       title.setAttribute("aria-expanded", String(!expanded));
       content.classList.toggle("open");
       content.style.maxHeight = !expanded ? content.scrollHeight + "px" : "0px";
-
-      // Si H2 = Certificats ou Diplômes, cacher toutes les H3 au départ
-      if (["Certificats", "Diplômes"].includes(title.textContent.trim())) {
-        const h3s = content.querySelectorAll("h3");
-        h3s.forEach(h3 => {
-          const h3Content = h3.nextElementSibling;
-          h3Content.style.maxHeight = "0px"; // cacher H3
-          h3.setAttribute("aria-expanded", "false");
-        });
-      }
     };
 
     title.addEventListener("click", toggle);
     title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
-    });
-  });
-
-  /* ------------------ ACCORDÉON H3 ------------------ */
-  document.querySelectorAll("#certificats h3, #diplomes h3").forEach(title => {
-    const content = title.nextElementSibling;
-    content.style.maxHeight = "0px";
-    title.setAttribute("aria-expanded", "false");
-
-    const toggle = () => {
-      const isOpen = content.classList.contains("open");
-      const parentContent = title.closest("div");
-
-      // Fermer toutes les autres H3 du même H2 parent
-      parentContent.querySelectorAll("h3").forEach(otherTitle => {
-        const otherContent = otherTitle.nextElementSibling;
-        if (otherTitle !== title) {
-          otherContent.classList.remove("open");
-          otherContent.style.maxHeight = "0px";
-          otherTitle.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      if (isOpen) {
-        content.classList.remove("open");
-        content.style.maxHeight = "0px";
-        title.setAttribute("aria-expanded", "false");
-      } else {
-        content.classList.add("open");
-        content.style.maxHeight = content.scrollHeight + "px";
-        title.setAttribute("aria-expanded", "true");
+      if (["Enter", " "].includes(e.key)) {
+        e.preventDefault();
+        toggle();
       }
-    };
-
-    title.addEventListener("click", toggle);
-    title.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
   });
 
-  /* ------------------ BOUTON RETOUR HAUT ------------------ */
+  /* =======================================================
+     🔝 BOUTON RETOUR HAUT
+     ======================================================= */
   const scrollBtn = document.createElement("button");
   scrollBtn.textContent = "↑";
   scrollBtn.setAttribute("aria-label", "Remonter en haut");
@@ -112,13 +133,16 @@ document.addEventListener("DOMContentLoaded", () => {
     zIndex: "9999"
   });
   body.appendChild(scrollBtn);
+
   scrollBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   window.addEventListener("scroll", () => {
     scrollBtn.style.opacity = window.scrollY > 300 ? "1" : "0";
     scrollBtn.style.pointerEvents = window.scrollY > 300 ? "auto" : "none";
   });
 
-  /* ------------------ BOUTON DARK MODE ------------------ */
+  /* =======================================================
+     🌙 BOUTON DARK MODE
+     ======================================================= */
   const darkModeBtn = document.createElement("button");
   darkModeBtn.textContent = "🌙";
   darkModeBtn.setAttribute("aria-label", "Basculer le mode sombre");
@@ -148,7 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   body.appendChild(darkModeBtn);
 
-  /* ------------------ PARTICULES ------------------ */
+  /* =======================================================
+     ✨ PARTICULES ANIMÉES DE FOND
+     ======================================================= */
   const canvas = document.createElement("canvas");
   canvas.id = "particles-canvas";
   Object.assign(canvas.style, {
@@ -162,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     transition: "opacity 0.5s ease"
   });
   body.appendChild(canvas);
+
   const ctx = canvas.getContext("2d");
   let particlesArray = [];
   let mouse = { x: null, y: null };
@@ -171,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.height = window.innerHeight;
     particlesArray = [];
     const numParticles = Math.floor(window.innerWidth / 20);
+
     for (let i = 0; i < numParticles; i++) {
       particlesArray.push({
         x: Math.random() * canvas.width,
@@ -195,6 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.fill();
       p.x += p.speedX;
       p.y += p.speedY;
+
       if (mouse.x && Math.hypot(p.x - mouse.x, p.y - mouse.y) < 80) {
         p.x += (p.x - mouse.x) * 0.02;
         p.y += (p.y - mouse.y) * 0.02;
@@ -211,7 +240,9 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   animateParticles();
 
-  /* ------------------ DARK MODE ------------------ */
+  /* =======================================================
+     ☀️/🌙 BASCULE DARK MODE + ÉTOILES
+     ======================================================= */
   darkModeBtn.addEventListener("click", () => {
     body.classList.toggle("dark-mode");
     const isDark = body.classList.contains("dark-mode");
@@ -234,7 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* ------------------ ANIMATION PHOTO PROFIL ------------------ */
+  /* =======================================================
+     🖼️ ANIMATION PHOTO DE PROFIL
+     ======================================================= */
   const photo = document.querySelector('.intro img.photo-profil');
   if (photo) {
     let scale = 1, growing = true, animationFrameId = null;
@@ -246,7 +279,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     photo.addEventListener('mouseenter', () => { if (!animationFrameId) animateZoom(); });
     photo.addEventListener('mouseleave', () => {
-      if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; scale = 1; photo.style.transform = 'scale(1)'; }
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        scale = 1;
+        photo.style.transform = 'scale(1)';
+      }
     });
   }
 });
