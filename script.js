@@ -21,57 +21,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 4000);
 
   /* =======================================================
-     🎓 ACCORDÉONS MULTI-NIVEAUX : CERTIFICATS & DIPLÔMES
+     ⚙️ ACCORDÉONS CERTIFICATS & DIPLÔMES (multi-niveaux amélioré)
      ======================================================= */
   function initAccordeonsCertificats() {
     const mainSections = document.querySelectorAll("#certificats, #diplomes");
 
     mainSections.forEach(section => {
-      const allToggles = section.querySelectorAll("h3, h4");
+      const allToggles = section.querySelectorAll("h3, h4, h5");
 
       allToggles.forEach(title => {
         const content = title.nextElementSibling;
         if (!content) return;
 
-        // État initial
         content.style.maxHeight = "0px";
         content.style.overflow = "hidden";
         title.setAttribute("aria-expanded", "false");
         title.setAttribute("tabindex", "0");
 
-        // Animation fluide
-        const smoothToggle = (open) => {
-          content.classList.toggle("open", open);
-          title.classList.toggle("active", open);
-          title.setAttribute("aria-expanded", open);
-          if (open) {
-            content.style.maxHeight = content.scrollHeight + "px";
-            setTimeout(() => (content.style.maxHeight = content.scrollHeight + "px"), 350);
-          } else {
-            content.style.maxHeight = "0px";
-          }
-        };
+        const toggle = () => {
+          const isOpen = content.classList.contains("open");
 
-        // Fermer les autres sous-sections du même niveau
-        const closeSiblings = (currentTitle) => {
-          const siblings = [...currentTitle.parentElement.children].filter(
-            el => (el.tagName === "H3" || el.tagName === "H4") && el !== currentTitle
-          );
+          // Fermer uniquement les siblings directs du même niveau
+          const parent = title.parentElement;
+          const siblings = [...parent.children].filter(el => (el.tagName === title.tagName) && el !== title);
+
           siblings.forEach(sib => {
             const sibContent = sib.nextElementSibling;
             if (sibContent && sibContent.classList.contains("open")) {
-              smoothToggle(false, sibContent);
+              sibContent.classList.remove("open");
+              sibContent.style.maxHeight = "0px";
+              sib.setAttribute("aria-expanded", "false");
             }
           });
+
+          // Ouvrir / fermer la rubrique
+          if (isOpen) {
+            content.classList.remove("open");
+            content.style.maxHeight = "0px";
+            title.setAttribute("aria-expanded", "false");
+          } else {
+            content.classList.add("open");
+            content.style.maxHeight = content.scrollHeight + "px";
+            title.setAttribute("aria-expanded", "true");
+
+            // Ajustement hauteur si contenu dynamique
+            setTimeout(() => {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }, 300);
+          }
         };
 
-        const toggle = () => {
-          const isOpen = content.classList.contains("open");
-          closeSiblings(title);
-          smoothToggle(!isOpen);
-        };
-
-        // Interaction souris + clavier
         title.addEventListener("click", toggle);
         title.addEventListener("keydown", e => {
           if (["Enter", " "].includes(e.key)) {
@@ -82,18 +81,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
   initAccordeonsCertificats();
 
   /* =======================================================
-     📚 ACCORDÉONS GÉNÉRAUX (H2)
+     ⚙️ ACCORDÉONS GÉNÉRAUX (H2)
      ======================================================= */
   document.querySelectorAll("h2").forEach(title => {
     const content = title.nextElementSibling;
     if (!content) return;
     content.style.maxHeight = "0px";
     title.setAttribute("aria-expanded", "false");
-    title.setAttribute("tabindex", "0");
 
     const toggle = () => {
       const expanded = title.getAttribute("aria-expanded") === "true";
@@ -163,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cursor: "pointer",
     boxShadow: "0 6px 16px rgba(0,0,0,0.25)",
     zIndex: "10000",
-    transition: "transform 0.4s ease, box-shadow 0.4s ease"
+    transition: "transform 0.4s ease, boxShadow 0.4s ease"
   });
   darkModeBtn.addEventListener("mouseenter", () => {
     darkModeBtn.style.transform = "rotate(15deg) scale(1.1)";
@@ -231,8 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
         p.x += (p.x - mouse.x) * 0.02;
         p.y += (p.y - mouse.y) * 0.02;
       }
-      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      if (p.x < 0 || p.x > canvas.width) p.speedX = -p.speedX;
+      if (p.y < 0 || p.y > canvas.height) p.speedY = -p.speedY;
     });
     requestAnimationFrame(animateParticles);
   }
@@ -252,6 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
     darkModeBtn.textContent = isDark ? "☀️" : "🌙";
     canvas.style.opacity = isDark ? "0" : "1";
 
+    // étoiles scintillantes
     if (isDark) {
       for (let i = 0; i < 40; i++) {
         const star = document.createElement("div");
