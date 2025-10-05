@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             content.classList.add("open");
             content.style.maxHeight = content.scrollHeight + "px";
             title.setAttribute("aria-expanded", "true");
+            // Ajustement pour sous-accordéons
             setTimeout(() => { content.style.maxHeight = content.scrollHeight + "px"; }, 300);
           }
         };
