@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const toggle = () => {
           const isOpen = content.classList.contains("open");
 
+          // Fermer uniquement les siblings du même niveau
           const parent = title.parentElement;
           const siblings = [...parent.children].filter(el => (el.tagName === title.tagName) && el !== title);
 
