@@ -21,30 +21,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 4000);
 
   /* =======================================================
-     ⚙️ ACCORDÉONS CERTIFICATS & DIPLÔMES (multi-niveaux amélioré)
+     ⚙️ ACCORDÉONS CERTIFICATS & DIPLÔMES (AMÉLIORÉ)
      ======================================================= */
   function initAccordeonsCertificats() {
     const mainSections = document.querySelectorAll("#certificats, #diplomes");
 
     mainSections.forEach(section => {
-      const allToggles = section.querySelectorAll("h3, h4, h5");
+      const toggleTitles = section.querySelectorAll("h3, h4, h5");
 
-      allToggles.forEach(title => {
+      toggleTitles.forEach(title => {
         const content = title.nextElementSibling;
         if (!content) return;
 
+        // Initialisation
         content.style.maxHeight = "0px";
         content.style.overflow = "hidden";
+        content.classList.remove("open");
         title.setAttribute("aria-expanded", "false");
         title.setAttribute("tabindex", "0");
+        title.style.cursor = "pointer";
 
-        const toggle = () => {
+        // Fonction toggle
+        const toggleContent = () => {
           const isOpen = content.classList.contains("open");
 
-          // Fermer uniquement les siblings du même niveau
-          const parent = title.parentElement;
-          const siblings = [...parent.children].filter(el => (el.tagName === title.tagName) && el !== title);
-
+          // Fermer les siblings du même niveau
+          const siblings = [...title.parentElement.children].filter(el => el.tagName === title.tagName && el !== title);
           siblings.forEach(sib => {
             const sibContent = sib.nextElementSibling;
             if (sibContent && sibContent.classList.contains("open")) {
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           });
 
+          // Ouvrir ou fermer le contenu
           if (isOpen) {
             content.classList.remove("open");
             content.style.maxHeight = "0px";
@@ -64,13 +67,19 @@ document.addEventListener("DOMContentLoaded", () => {
             title.setAttribute("aria-expanded", "true");
 
             // Ajustement pour sous-accordéons
-            setTimeout(() => { content.style.maxHeight = content.scrollHeight + "px"; }, 300);
+            setTimeout(() => {
+              content.style.maxHeight = content.scrollHeight + "px";
+            }, 300);
           }
         };
 
-        title.addEventListener("click", toggle);
+        // Événements click et clavier
+        title.addEventListener("click", toggleContent);
         title.addEventListener("keydown", e => {
-          if (["Enter", " "].includes(e.key)) { e.preventDefault(); toggle(); }
+          if (["Enter", " "].includes(e.key)) {
+            e.preventDefault();
+            toggleContent();
+          }
         });
       });
     });
